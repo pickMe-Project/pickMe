@@ -8,9 +8,7 @@ export default function Navbar() {
                 <nav className="container mx-auto flex items-center justify-between px-6">
                     <Link href="/" className="flex items-center p-3">
                         {/* Logo */}
-                        <Link href="/">
                             <img src="/PickMe_transparent.svg" alt="pickme-logo" className="bg-white/60 rounded-xl p-1 w-16 h-16" />
-                        </Link>
                         {/* End Logo */}
                     </Link>
                     <div className="hidden md:flex items-center space-x-12 font-cousine">
