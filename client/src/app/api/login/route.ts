@@ -2,6 +2,7 @@ import { User, UserType } from "@/db/models/User";
 import { compare } from "bcryptjs";
 import { z, ZodError } from "zod";
 import { sign } from "jsonwebtoken"
+
 const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string(),
