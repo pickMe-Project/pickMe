@@ -37,7 +37,7 @@ export default function Home() {
         <div className="flex justify-start items-center px-[15vh]" data-aos="fade-up">
           <div className="w-[65%] h-[40vh]">
             <p className="text-xl font-normal font-cousine">
-              pickMe! is your ultimate online destination for mastering the guitar with ease. Whether you're a beginner
+              pickMe! is your ultimate online destination for mastering the guitar with ease. Whether you&apos;re a beginner
               looking to strum your first chord or an experienced player aiming to perfect your skills, pickMe! offers an
               extensive library of guitar tabs and chords tailored for every level. With an intuitive interface, users can
               easily find songs, learn finger placements, and explore various styles. Join a community of passionate
