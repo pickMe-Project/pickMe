@@ -15,8 +15,8 @@ export default function WithNavbarLayout({
 }>) {
   return (
     <>
-      {/* <Navbar /> */}
-      <NavbarSignin />
+      <Navbar />
+      {/* <NavbarSignin /> */}
       {children}
       <Footer />
     </>

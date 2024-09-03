@@ -6,11 +6,13 @@ export default function Navbar() {
             {/* ========== HEADER ========== */}
             <header className="sticky top-0 left-0 right-0 z-50 w-full bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg">
                 <nav className="container mx-auto flex items-center justify-between px-6">
-                    <div className="flex items-center p-3">
+                    <Link href="/" className="flex items-center p-3">
                         {/* Logo */}
-                        <img src="/PickMe_transparent.svg" alt="pickme-logo" className="bg-white/60 rounded-xl p-1 w-16 h-16" />
+                        <Link href="/">
+                            <img src="/PickMe_transparent.svg" alt="pickme-logo" className="bg-white/60 rounded-xl p-1 w-16 h-16" />
+                        </Link>
                         {/* End Logo */}
-                    </div>
+                    </Link>
                     <div className="hidden md:flex items-center space-x-12 font-cousine">
                         <Link
                             className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
