@@ -16,7 +16,7 @@ export default function Home() {
           </div>
           <div className="w-1/2 h-screen mt-[30vh]" data-aos="fade-down">
             <div className="flex flex-col items-center justify-center">
-              <h1 className="text-[3rem] italic font-black font-libre">Road to Rockstar!</h1>
+              <h1 className="text-[3rem] italic font-black font-libre">Road to Rockstar</h1>
               <img
                 className="w-[80vh] h-[75vh] object-cover"
                 src="https://images.unsplash.com/photo-1644280930023-aeb3df02f310?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
