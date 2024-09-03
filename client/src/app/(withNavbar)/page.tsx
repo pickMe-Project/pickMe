@@ -53,6 +53,55 @@ export default function Home() {
           <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent z-10"></div>
           <MarqueeLanding />
         </div>
+
+        {/* Featured Songs */}
+        <div className="py-16 px-[15vh]" data-aos="fade-up">
+          <h2 className="text-3xl font-bold font-libre mb-8">Featured Songs</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Featured Song Card 1 */}
+            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                alt="Featured Song 1"
+                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+              <div className="absolute bottom-0 left-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-xl font-semibold font-libre">Stairway to Heaven</h3>
+                <p className="text-sm font-cousine">Led Zeppelin</p>
+              </div>
+            </div>
+
+            {/* Featured Song Card 2 */}
+            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                alt="Featured Song 2"
+                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+              <div className="absolute bottom-0 left-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-xl font-semibold font-libre">Wonderwall</h3>
+                <p className="text-sm font-cousine">Oasis</p>
+              </div>
+            </div>
+
+            {/* Featured Song Card 3 */}
+            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                alt="Featured Song 3"
+                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+              <div className="absolute bottom-0 left-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-xl font-semibold font-libre">Hotel California</h3>
+                <p className="text-sm font-cousine">Eagles</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </AOSWrapper>
     </>
   );
