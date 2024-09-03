@@ -1,32 +1,40 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
-export default function Login() {
-  const handleLogin = async (formData: FormData) => {
+export default async function Login() {
+  const handeLogin = async (formData: FormData) => {
     "use server";
     const form = {
       email: formData.get("email"),
       password: formData.get("password"),
     };
-    const response = await fetch(`http://localhost:3000/api/users/login`, {
+    const response = await fetch(`http://localhost:3000/api/login`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
         "Content-Type": "application/json",
       },
     });
+    console.log(response, "ini response <<<<<<<");
+    
 
     if (!response.ok) {
-      const errorBody = (await response.json()) as { error: string };
-      return redirect("/login?error=" + errorBody.error);
+      const errorBody = await response.text();
+      console.log(errorBody, "ini error <<<<<<<");
+      return redirect("/login?error=" + encodeURIComponent(errorBody));
     }
-    const responseBody = (await response.json()) as { access_token: string };
-    cookies().set("Authorization", "Bearer " + responseBody.access_token);
-
-    return redirect("/");
+    const responseBody = await response.json();
+    console.log(responseBody, "ini response body <<<<<<<");
+    
+    if (responseBody && responseBody.access_token) {
+      cookies().set("Authorization", "Bearer " + responseBody.access_token);
+      return redirect("/");
+    } else {
+      console.error("Invalid response body:", responseBody);
+      return redirect("/login?error=Invalid+response+from+server");
+    }
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
@@ -34,7 +42,7 @@ export default function Login() {
         <h1 className="text-4xl font-bold text-center text-black font-libre">
           Sign In
         </h1>
-        <form action={handleLogin} className="mt-10 space-y-6 font-cousine">
+        <form action={handeLogin} className="mt-10 space-y-6 font-cousine">
           <div className="space-y-4">
             <div className="relative">
               <input
