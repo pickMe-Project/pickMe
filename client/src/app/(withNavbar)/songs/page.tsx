@@ -1,6 +1,7 @@
 import SongCard from "@/components/SongCard";
 
 export default function Songs() {
+    
     return (
         <>
             {/* Search Bar */}
