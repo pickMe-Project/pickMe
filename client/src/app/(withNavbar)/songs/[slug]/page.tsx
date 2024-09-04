@@ -68,10 +68,10 @@ export default async function SongDetail(props: Props) {
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Chords</h3>
             <div className="flex flex-wrap gap-2">
-              {song.chords.map((el) => {
+              {song.chords.map((song, index) => {
                 return (
-                  <span className="px-2 py-1 bg-yellow-400 text-black rounded">
-                    {el}
+                  <span className="px-2 py-1 bg-yellow-400 text-black rounded" key={index}>
+                    {song}
                   </span>
                 );
               })}
