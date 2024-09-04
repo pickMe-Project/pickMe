@@ -40,10 +40,8 @@ export class Song {
       if (search) {
         filter = {
           $or: [
-            {
-              name: { $regex: search, $options: "i" },
-              artist: { $regex: search, $options: "i" },
-            },
+            { name: { $regex: search, $options: "i" } },
+            { artist: { $regex: search, $options: "i" } },
           ],
         };
       }
