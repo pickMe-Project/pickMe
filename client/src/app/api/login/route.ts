@@ -23,8 +23,6 @@ export async function POST(req: Request, res: Response) {
 
         const {password, ...safeUser} = user
         const access_token = sign(safeUser, process.env.JWT_SECRET as string)
-        console.log(access_token, "ini access token");
-        
         return Response.json({access_token: access_token})
     } catch (error) {
         if(error instanceof ZodError) {

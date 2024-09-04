@@ -2,6 +2,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import NavbarSignin from "@/components/NavbarSignin";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "pickMe!",
@@ -13,10 +14,10 @@ export default function WithNavbarLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const authCookie = cookies().get('Authorization')
   return (
     <>
-      <Navbar />
-      {/* <NavbarSignin /> */}
+      {authCookie ? <NavbarSignin /> : <Navbar />}
       {children}
       <Footer />
     </>
