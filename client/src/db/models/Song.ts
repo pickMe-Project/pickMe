@@ -49,6 +49,7 @@ export class Song {
 
       const result = await this.col()
         .find(filter)
+        .sort({ name: 1 })
         .skip(skip)
         .limit(limit)
         .toArray();
