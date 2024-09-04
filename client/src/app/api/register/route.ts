@@ -2,6 +2,15 @@ import { z, ZodError } from "zod";
 import { User, UserType } from "@/db/models/User";
 import { db } from "@/db/config";
 
+
+//--------------- course schema -----------
+const courseSchema = z.object({
+  id: z.string(), 
+  title: z.string(),
+});
+//-----------
+
+
 const RegisterSchema = z.object({
   name: z.string(),
   username: z
@@ -20,6 +29,7 @@ const RegisterSchema = z.object({
       { message: "must be unique" }
     ),
   email: z.string().email(),
+  courses: z.array(courseSchema),
   password: z.string().min(5),
 });
 
