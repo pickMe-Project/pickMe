@@ -21,7 +21,6 @@ export default function Songs() {
 
         if (!response.ok) throw new Error("Failed to fetch songs");
         const data: SongType[] = await response.json();
-
         if (data.length < 6) {
           setHasMore(false);
         }
@@ -69,8 +68,13 @@ export default function Songs() {
         next={loadMore}
         hasMore={hasMore}
         loader={
-          <div className="my-10 justify-center items-center mx-auto text-center">
-            Loading...
+          <div className="my-10 flex justify-center items-center mx-auto">
+            <div className="relative inline-flex">
+              <div className="w-8 h-8 bg-yellow-400 rounded-full"></div>
+              <div className="w-8 h-8 bg-yellow-400 rounded-full absolute top-0 left-0 animate-ping"></div>
+              <div className="w-8 h-8 bg-yellow-400 rounded-full absolute top-0 left-0 animate-pulse"></div>
+            </div>
+            <span className="ml-4 font-cousine text-lg text-gray-600">Loading...</span>
           </div>
         }
         endMessage={
