@@ -1,6 +1,7 @@
 import ProfileCourseCard from "@/components/ProfileCourseCard";
 
 export default async function Profile({ params }: { params: { _id: string } }) {
+  
   const _id = params._id;
 
   const response = await fetch(

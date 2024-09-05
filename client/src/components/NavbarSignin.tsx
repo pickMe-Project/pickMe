@@ -1,6 +1,8 @@
 import Link from "next/link";
 
 export default function NavbarSignin() {
+
+  
   return (
     <>
       {/* ========== HEADER ========== */}
@@ -43,7 +45,7 @@ export default function NavbarSignin() {
             </Link>
             <Link
               className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-              href="#"
+              href=""
             >
               Sign Out
             </Link>
