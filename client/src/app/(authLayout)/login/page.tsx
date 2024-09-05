@@ -17,16 +17,13 @@ export default async function Login() {
         "Content-Type": "application/json",
       },
     });
-    console.log(response, "ini response <<<<<<<");
     
 
     if (!response.ok) {
       const errorBody = await response.text();
-      console.log(errorBody, "ini error <<<<<<<");
       return redirect("/login?error=" + encodeURIComponent(errorBody));
     }
     const responseBody = await response.json();
-    console.log(responseBody, "ini response body <<<<<<<");
     
     if (responseBody && responseBody.access_token) {
       cookies().set("Authorization", "Bearer " + responseBody.access_token);

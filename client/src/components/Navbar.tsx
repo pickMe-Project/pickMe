@@ -30,19 +30,13 @@ export default function Navbar(request : Request) {
                         </Link>
                         <Link
                             className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-                            href="#"
-                        >
-                            Tabs
-                        </Link>
-                        <Link
-                            className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
                             href="/login"
                         >
                             Sign In
                         </Link>
                         <Link
                             className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-                            href="#"
+                            href="/register"
                         >
                             Sign Up
                         </Link>
@@ -113,19 +107,13 @@ export default function Navbar(request : Request) {
                             </Link>
                             <Link
                                 className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-                                href="#"
-                            >
-                                Tabs
-                            </Link>
-                            <Link
-                                className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
                                 href="/login"
                             >
                                 Sign In
                             </Link>
                             <Link
                                 className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-                                href="#"
+                                href="/register"
                             >
                                 Sign Up
                             </Link>

@@ -1,4 +1,6 @@
+'use client'
 import Link from "next/link";
+import handleLogout from "@/app/actions/logout";
 
 export default function NavbarSignin() {
 
@@ -33,22 +35,18 @@ export default function NavbarSignin() {
             </Link>
             <Link
               className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-              href="#"
-            >
-              Tabs
-            </Link>
-            <Link
-              className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-              href="#"
+              href="/profile"
             >
               Profile
             </Link>
-            <Link
+            <button
               className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-              href=""
+              onClick={() => {
+                handleLogout()
+              }}
             >
               Sign Out
-            </Link>
+            </button>
           </div>
           <div className="md:hidden">
             {/* Toggle Button */}
@@ -116,13 +114,7 @@ export default function NavbarSignin() {
               </Link>
               <Link
                 className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-                href="#"
-              >
-                Tabs
-              </Link>
-              <Link
-                className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-                href="#"
+                href="/profile"
               >
                 Profile
               </Link>
@@ -130,7 +122,7 @@ export default function NavbarSignin() {
                 className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
                 href="#"
               >
-                Sign Up
+                Sign Out
               </Link>
             </div>
           </div>
