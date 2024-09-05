@@ -14,7 +14,6 @@ async function getSongBySlug(slug: string) {
         if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
         const data: SongType = await response.json();
-        console.log(data, '<<< data');
         return data;
     } catch (error) {
         console.log(error);
@@ -36,29 +35,34 @@ export default async function SongDetail(props: Props) {
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col items-center bg-white text-black">
-                <h1 className="text-3xl font-bold font-libre mb-6">{song.name}</h1>
+                <div className="mb-5 flex flex-col items-center">
+                    <h1 className="text-4xl font-bold font-libre">{song.name}</h1>
+                    <h2 className="text-2xl text-gray-600 font-semibold font-libre">{song.artist}</h2>
+                </div>
                 <div className="w-full max-w-3xl">
                     <div className="p-2 mb-4">
                         <div>
-                            <h2 className="text-xl font-semibold font-libre">
-                                {song.artist}
-                            </h2>
                             <div className="flex items-center p-2 justify-between gap-x-10">
-                                <p className="text-sm text-gray-600 font-libre mr-4">
-                                    Key:  {song.key}
-                                </p>
-                                <p className="text-sm text-gray-600 font-libre mr-4">
-                                    Tuning: {song.tuning.join(" ")}
-                                </p>
-                                <p className="text-sm text-gray-600 font-libre mr-4">
-                                    Difficulty: {song.difficulty}
-                                </p>
-                                <p className="text-sm text-gray-600 font-libre mr-4">
-                                    Capo: {song.capo}
-                                </p>
-                                <p className="text-sm text-gray-600 font-libre">
-                                    Rating: {song.rating}/5
-                                </p>
+                                <div>
+                                    <p className="text-sm text-gray-600 font-libre">Key:</p>
+                                    <p className="text-base font-semibold">{song.key}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-600 font-libre">Tuning:</p>
+                                    <p className="text-base font-semibold">{song.tuning.join(" ")}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-600 font-libre">Difficulty:</p>
+                                    <p className="text-base font-semibold">{song.difficulty}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-600 font-libre">Capo:</p>
+                                    <p className="text-base font-semibold">{song.capo}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-600 font-libre">Rating:</p>
+                                    <p className="text-base font-semibold">{song.rating}/5</p>
+                                </div>
                                 <div className="mt-8">
                                 </div>
                             </div>

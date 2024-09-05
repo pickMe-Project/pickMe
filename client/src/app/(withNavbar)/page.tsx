@@ -1,6 +1,16 @@
 import MarqueeLanding from "@/components/MarqueeLanding";
 import AOSWrapper from "@/components/AosWrapper";
-export default function Home() {
+import { SongType } from "@/db/models/Song";
+import Link from "next/link";
+
+export default async function Home() {
+  const data = await fetch("http://localhost:3000/api/songs", {
+    cache: "no-store",
+  })
+  const songs: SongType[] = await data.json()
+
+  // Select the first 3 songs from the fetched data
+  const featuredSongs = songs.slice(0, 3);
 
   return (
     <>
@@ -9,7 +19,7 @@ export default function Home() {
         <div className="flex justify-between">
           <div className="w-[80vh] h-screen flex items-center justify-center" data-aos="fade-right">
             <img
-              className="w-[65vh] h-[93vh] object-cover"
+              className="w-[71vh] h-[100vh] object-cover"
               src="https://images.unsplash.com/photo-1593698054498-56898cbad8af?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="1st image"
             />
@@ -24,9 +34,9 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="w-[60vh] h-screen flex items-start justify-end mt-[5vh]" data-aos="fade-left">
+          <div className="w-[60vh] h-screen flex items-start justify-end mt-[7vh]" data-aos="fade-left">
             <img
-              className="w-[50vh] h-[90vh] object-cover"
+              className="w-[50vh] h-[81vh] object-cover"
               src="https://images.unsplash.com/photo-1593697972422-9d9cb386afd8?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="3rd image"
             />
@@ -55,53 +65,53 @@ export default function Home() {
         </div>
 
         {/* Featured Songs */}
-        <div className="py-16 px-[15vh]" data-aos="fade-up">
+        <div className="py-10 px-[15vh]" data-aos="fade-up">
           <h2 className="text-3xl font-bold font-libre mb-8">Featured Songs</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Featured Song Card 1 */}
-            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
-              <img
-                src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                alt="Featured Song 1"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
-              <div className="absolute bottom-0 left-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="text-xl font-semibold font-libre">Stairway to Heaven</h3>
-                <p className="text-sm font-cousine">Led Zeppelin</p>
-              </div>
-            </div>
+            {featuredSongs.map((song, index) => (
+              <Link href={`/songs/${song.slug}`} key={song.slug}>
+                <div className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl cursor-pointer">
+                  <img
+                    src={`/artist-${index + 1}.jpg`}
+                    alt={song.name}
+                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-0 left-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <h3 className="text-xl font-semibold font-libre">{song.name}</h3>
+                    <p className="text-sm font-cousine">{song.artist}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
 
-            {/* Featured Song Card 2 */}
-            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
+          {/* Explore More Hero Section */}
+          <div className="relative h-[80vh] mt-16 mb-10 overflow-hidden" data-aos="fade-up">
+            <div className="absolute inset-0">
               <img
-                src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                alt="Featured Song 2"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="Urban guitar background"
+                className="w-full h-full object-cover filter brightness-50"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
-              <div className="absolute bottom-0 left-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="text-xl font-semibold font-libre">Wonderwall</h3>
-                <p className="text-sm font-cousine">Oasis</p>
-              </div>
             </div>
-
-            {/* Featured Song Card 3 */}
-            <div className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl">
-              <img
-                src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                alt="Featured Song 3"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
-              <div className="absolute bottom-0 left-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="text-xl font-semibold font-libre">Hotel California</h3>
-                <p className="text-sm font-cousine">Eagles</p>
-              </div>
+            <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
+              <h2 className="text-5xl font-bold font-libre mb-6 tracking-wider">Discover Your Sound</h2>
+              <p className="text-xl font-cousine mb-10 max-w-2xl">
+                Explore our vast collection of chords and songs. From classics to contemporary hits,
+                find the perfect melody to express yourself.
+              </p>
+              <Link href="/songs" className="bg-yellow-400 text-black font-bold py-3 px-8 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-yellow-500 active:scale-95 relative overflow-hidden group">
+                <span className="relative z-10">Explore Songs</span>
+                <span className="absolute inset-0 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              </Link>
             </div>
           </div>
-        </div>
 
+
+
+        </div>
       </AOSWrapper>
     </>
   );

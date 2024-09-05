@@ -49,28 +49,26 @@ export default function Profile() {
           <img
             src="/PickMe_transparent.svg"
             alt="Profile Picture"
-            className="w-28 h-28 rounded-full mb-4 bg-gray-300"
+            className="w-28 h-28 rounded-full mb-4 bg-gray-100"
           />
           <h1 className="text-3xl font-bold text-black font-libre mb-6">
-            {userData ? userData.name : "Loading..."}
+            {userData ? userData.name : (
+              <div className="h-8 w-48 bg-gray-200 animate-pulse rounded"></div>
+            )}
           </h1>
           <div className="text-center mb-8">
             <p className="text-gray-600 font-libre">
-              Username:{" "}
               <span className="font-medium text-black font-cousine">
-                {userData ? userData.username : "Loading..."}
+                {userData ? userData.username : (
+                  <span className="inline-block h-5 w-32 bg-gray-200 animate-pulse rounded"></span>
+                )}
               </span>
             </p>
             <p className="text-gray-600 font-libre">
-              Name:{" "}
               <span className="font-medium text-black font-cousine">
-                {userData ? userData.name : "Loading..."}
-              </span>
-            </p>
-            <p className="text-gray-600 font-libre">
-              Email:{" "}
-              <span className="font-medium text-black font-cousine">
-                {userData ? userData.email : "Loading..."}
+                {userData ? userData.email : (
+                  <span className="inline-block h-5 w-48 bg-gray-200 animate-pulse rounded"></span>
+                )}
               </span>
             </p>
           </div>

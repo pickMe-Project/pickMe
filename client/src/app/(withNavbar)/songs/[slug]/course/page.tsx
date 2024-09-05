@@ -35,36 +35,32 @@ export default async function Course(props: Props) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-black">Guitar Course</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white shadow-md rounded-lg p-8">
-          <h2 className="text-2xl font-semibold mb-6 text-black">
+      <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex-1 bg-white shadow-lg rounded-xl p-6">
+          <h2 className="text-3xl font-bold mb-4 text-black font-libre">
             Guitar Tabs
           </h2>
           <div
-            className="font-mono text-sm whitespace-pre-wrap bg-gray-100 p-4 rounded"
+            className="font-mono text-sm bg-gray-100 p-4 rounded-lg overflow-hidden"
             style={{ height: "400px", overflowY: "auto" }}
           >
-            {/* Placeholder for guitar tabs */}
-            {/* e|--------------------|\nB|--------------------|\nG|--------------------|\nD|--------------------|\nA|--------------------|\nE|--------------------| */}
-            <img src={song.tabImg} alt={song.name} />
+            <img src={song.tabImg} alt={song.name} className="w-full h-auto" />
           </div>
         </div>
-        <div className="bg-white shadow-md rounded-lg p-8">
-          <h2 className="text-2xl font-semibold mb-6 text-black">
+        <div className="flex-1 bg-white shadow-lg rounded-xl p-6">
+          <h2 className="text-3xl font-bold mb-4 text-black font-libre">
             Tutorial Video
           </h2>
           <div
-            className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg flex items-center justify-center"
+            className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden flex items-center justify-center"
             style={{ height: "400px" }}
           >
-            {/* <span className="text-gray-500 text-xl">Video Placeholder</span> */}
             <YouTubePlayer videoId={song.videoId} />
           </div>
         </div>
       </div>
-      <div className="mt-8">
-        <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+      <div className="mt-10 text-center">
+        <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
           Start Practice
         </button>
       </div>
