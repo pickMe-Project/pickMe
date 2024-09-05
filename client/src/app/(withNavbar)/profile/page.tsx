@@ -1,22 +1,45 @@
+'use client';
 import ProfileCourseCard from "@/components/ProfileCourseCard";
-import { NextRequest } from "next/server";
+import { useEffect, useState } from "react";
 
-export default async function Profile(request : NextRequest) {
-  
-  
-  const requestHeaders = new Headers(request.headers);
-console.log("All headers:", [...requestHeaders.entries()])
-  // const _id = params._id;
+interface UserData {
+  name: string;
+  username: string;
+  email: string;
+}
 
-  const response = await fetch(
-    `http://localhost:3000/api/user`,
-    {
-      method: "GET",
-      cache: "no-store",
+export const dynamic = "force-dynamic";
+
+export default function Profile() {
+  const [userData, setUserData] = useState<UserData | null>(null)
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchUser = async () => {
+    try {
+      const authCookie = document.cookie.split('; ').find(row => row.startsWith('Authorization='))?.split('=')[1] || "";
+
+      const response = await fetch(`http://localhost:3000/api/user`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-user-id": authCookie,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+
+      const data: UserData = await response.json();
+      setUserData(data);
+    } catch (err) {
+      console.error(err);
     }
-  );
+  };
 
-  const data = await response.json();
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <>
@@ -28,25 +51,26 @@ console.log("All headers:", [...requestHeaders.entries()])
             className="w-28 h-28 rounded-full mb-4 bg-gray-300"
           />
           <h1 className="text-3xl font-bold text-black font-libre mb-6">
-            {/* {data.name} */}
+
+            {userData ? userData.name : "Loading..."}
           </h1>
           <div className="text-center mb-8">
             <p className="text-gray-600 font-libre">
               Username:{" "}
               <span className="font-medium text-black font-cousine">
-                {/* {data.username} */}
+                {userData ? userData.username : "Loading..."}
               </span>
             </p>
             <p className="text-gray-600 font-libre">
               Name:{" "}
               <span className="font-medium text-black font-cousine">
-                {/* {data.name} */}
+                {userData ? userData.name : "Loading..."}
               </span>
             </p>
             <p className="text-gray-600 font-libre">
               Email:{" "}
               <span className="font-medium text-black font-cousine">
-                {/* {data.email} */}
+                {userData ? userData.email : "Loading..."}
               </span>
             </p>
           </div>

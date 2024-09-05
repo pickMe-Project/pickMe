@@ -1,17 +1,15 @@
 import { User, UserType } from "@/db/models/User";
-import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
-    
-
-    const requestHeaders = new Headers(req.headers);
-console.log("All headers:", [...requestHeaders.entries()] , "><<<<<<<")
-  const { searchParams } = new URL(req.url ?? "", "http://localhost");
-  const id = searchParams.get("id");
-
-
-
-  const response = await User.findByPk(`${id}`);
-
-  return Response.json(response, { status: 200 });
+export async function GET(request: Request) {
+  try {
+    const userId: string = request.headers.get("x-user-id") || "";
+    const response = await User.findByPk(userId);
+    if (!response) {
+      return new Response(JSON.stringify({ error: "User not found" }), { status: 404 });
+    }
+    return new Response(JSON.stringify(response), { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
+  }
 }
