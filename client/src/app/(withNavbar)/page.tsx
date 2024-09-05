@@ -2,14 +2,13 @@ import MarqueeLanding from "@/components/MarqueeLanding";
 import AOSWrapper from "@/components/AosWrapper";
 import { SongType } from "@/db/models/Song";
 import Link from "next/link";
+import Chat from "@/components/Chat";
 
 export default async function Home() {
   const data = await fetch("http://localhost:3000/api/songs", {
     cache: "no-store",
   })
   const songs: SongType[] = await data.json()
-
-  // Select the first 3 songs from the fetched data
   const featuredSongs = songs.slice(0, 3);
 
   return (
@@ -108,10 +107,8 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-
-
-
         </div>
+        <Chat />
       </AOSWrapper>
     </>
   );

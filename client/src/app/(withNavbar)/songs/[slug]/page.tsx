@@ -91,7 +91,7 @@ export default async function SongDetail(props: Props) {
                         <pre dangerouslySetInnerHTML={{ __html: song.lyrics }} />
                     </div>
                 </div>
-            </div>
+            </div>        
         </div>
     );
 }
