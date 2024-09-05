@@ -3,6 +3,9 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
     
+
+    const requestHeaders = new Headers(req.headers);
+console.log("All headers:", [...requestHeaders.entries()] , "><<<<<<<")
   const { searchParams } = new URL(req.url ?? "", "http://localhost");
   const id = searchParams.get("id");
 

@@ -1,11 +1,15 @@
 import ProfileCourseCard from "@/components/ProfileCourseCard";
+import { NextRequest } from "next/server";
 
-export default async function Profile({ params }: { params: { _id: string } }) {
+export default async function Profile(request : NextRequest) {
   
-  const _id = params._id;
+  
+  const requestHeaders = new Headers(request.headers);
+console.log("All headers:", [...requestHeaders.entries()])
+  // const _id = params._id;
 
   const response = await fetch(
-    `http://localhost:3000/api/user?id=${encodeURIComponent(_id)}`,
+    `http://localhost:3000/api/user`,
     {
       method: "GET",
       cache: "no-store",
@@ -24,25 +28,25 @@ export default async function Profile({ params }: { params: { _id: string } }) {
             className="w-28 h-28 rounded-full mb-4 bg-gray-300"
           />
           <h1 className="text-3xl font-bold text-black font-libre mb-6">
-            {data.name}
+            {/* {data.name} */}
           </h1>
           <div className="text-center mb-8">
             <p className="text-gray-600 font-libre">
               Username:{" "}
               <span className="font-medium text-black font-cousine">
-                {data.username}
+                {/* {data.username} */}
               </span>
             </p>
             <p className="text-gray-600 font-libre">
               Name:{" "}
               <span className="font-medium text-black font-cousine">
-                {data.name}
+                {/* {data.name} */}
               </span>
             </p>
             <p className="text-gray-600 font-libre">
               Email:{" "}
               <span className="font-medium text-black font-cousine">
-                {data.email}
+                {/* {data.email} */}
               </span>
             </p>
           </div>
