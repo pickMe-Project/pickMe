@@ -1,4 +1,5 @@
 import { SongType } from "@/db/models/Song";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -79,6 +80,13 @@ export default async function SongDetail(props: Props) {
           </div>
           <div className="font-mono whitespace-pre-wrap">
             <pre dangerouslySetInnerHTML={{ __html: song.lyrics }} />
+          </div>
+          <div className="mt-8">
+            <Link href={`/songs/${song.slug}/course`}
+              className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 active:scale-95"
+            >
+              Add this song to my course
+            </Link>
           </div>
         </div>
       </div>
