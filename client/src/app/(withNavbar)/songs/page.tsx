@@ -1,5 +1,4 @@
 "use client";
-
 import Searchbar from "@/components/Searchbar";
 import SongCard from "@/components/SongCard";
 import { SongType } from "@/db/models/Song";
@@ -66,7 +65,7 @@ export default function Songs() {
         <Searchbar handleSearchChange={handleSearchChange} search={search} />
       </div>
 
-      {/* songs */}
+      {/* Songs */}
       <InfiniteScroll
         dataLength={songs.length}
         next={loadMore}
