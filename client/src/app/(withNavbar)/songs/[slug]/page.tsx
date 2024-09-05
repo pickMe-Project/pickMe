@@ -14,6 +14,7 @@ async function getSongBySlug(slug: string) {
     if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
     const data: SongType = await response.json();
+    console.log(data, '<<< data');
     return data;
   } catch (error) {
     console.log(error);
