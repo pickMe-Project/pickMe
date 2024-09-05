@@ -12,6 +12,7 @@ export default function Register() {
           username: formData.get("username"),
           email: formData.get("email"),
           password: formData.get("password"),
+          courses: [] ,
         }),
         headers: {
           "Content-Type": "application/json",

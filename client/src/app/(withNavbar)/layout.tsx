@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: "Learn how to play guitar with pickMe!",
 };
 
+
 export default function WithNavbarLayout({
   children,
 }: Readonly<{

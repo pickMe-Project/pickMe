@@ -3,6 +3,8 @@ import Link from "next/link";
 import handleLogout from "@/app/actions/logout";
 
 export default function NavbarSignin() {
+
+  
   return (
     <>
       {/* ========== HEADER ========== */}
