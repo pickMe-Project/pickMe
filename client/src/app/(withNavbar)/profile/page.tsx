@@ -1,17 +1,19 @@
 'use client';
 import ProfileCourseCard from "@/components/ProfileCourseCard";
+import { UserType } from "@/db/models/User";
 import { useEffect, useState } from "react";
 
-interface UserData {
-  name: string;
-  username: string;
-  email: string;
-}
+// interface UserData {
+//   name: string;
+//   username: string;
+//   email: string;
+//   courses?: object
+// }
 
 export const dynamic = "force-dynamic";
 
 export default function Profile() {
-  const [userData, setUserData] = useState<UserData | null>(null)
+  const [userData, setUserData] = useState<UserType | null>(null)
   const [error, setError] = useState<string | null>(null);
 
   const fetchUser = async () => {
@@ -30,7 +32,8 @@ export default function Profile() {
         throw new Error("Failed to fetch user data");
       }
 
-      const data: UserData = await response.json();
+      const data: UserType = await response.json();
+      
       setUserData(data);
     } catch (err) {
       console.error(err);
@@ -78,12 +81,9 @@ export default function Profile() {
             Course Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <ProfileCourseCard />
-            <ProfileCourseCard />
-            <ProfileCourseCard />
-            <ProfileCourseCard />
-            <ProfileCourseCard />
-            <ProfileCourseCard />
+            {userData?.courses?.map(course => {
+              return <ProfileCourseCard key={course.songId.toString()} course={course}/>;
+            })}
           </div>
         </div>
       </div>

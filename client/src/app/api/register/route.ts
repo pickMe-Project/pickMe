@@ -4,39 +4,39 @@ import { db } from "@/db/config";
 
 
 //--------------- course schema -----------
-const courseSchema = z.object({
-  id: z.string(), 
-  title: z.string(),
-});
+// const courseSchema = z.object({
+//   id: z.string(), 
+//   title: z.string(),
+// });
 //-----------
 
 
-const RegisterSchema = z.object({
-  name: z.string(),
-  username: z
-    .string()
-    .refine(
-      (username) => {
-        return Boolean(username);
-      },
-      { message: "must be filled" }
-    )
-    .refine(
-      async (username) => {
-        const existingUser = await db.collection("Users").findOne({ username });
-        return !existingUser;
-      },
-      { message: "must be unique" }
-    ),
-  email: z.string().email(),
-  courses: z.array(courseSchema),
-  password: z.string().min(5),
-});
+// const RegisterSchema = z.object({
+//   name: z.string(),
+//   username: z
+//     .string()
+//     .refine(
+//       (username) => {
+//         return Boolean(username);
+//       },
+//       { message: "must be filled" }
+//     )
+//     .refine(
+//       async (username) => {
+//         const existingUser = await db.collection("Users").findOne({ username });
+//         return !existingUser;
+//       },
+//       { message: "must be unique" }
+//     ),
+//   email: z.string().email(),
+//   courses: z.array(courseSchema),
+//   password: z.string().min(5),
+// });
 
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as UserType;
-    await RegisterSchema.parseAsync(body);
+    // await RegisterSchema.parseAsync(body);
 
     const userCheck = await User.findOne({ email: body.email });
 

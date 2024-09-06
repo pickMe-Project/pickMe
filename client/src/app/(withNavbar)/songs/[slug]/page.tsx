@@ -1,3 +1,4 @@
+import AddSongToCourse from "@/components/AddSongToCourse";
 import { SongType } from "@/db/models/Song";
 import Link from "next/link";
 
@@ -69,11 +70,12 @@ export default async function SongDetail(props: Props) {
                         </div>
                     </div>
                     <div className="flex justify-end ">
-                        <Link href={`/songs/${song.slug}/course`}
+                      <AddSongToCourse  key={song.slug} song={song}/>
+                        {/* <Link href={`/songs/${song.slug}/course`}
                             className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 active:scale-95"
                         >
                             Add this song to my course
-                        </Link>
+                        </Link> */}
                     </div>
                     <div className="mb-6">
                         <h3 className="text-lg font-semibold mb-2">Chords</h3>

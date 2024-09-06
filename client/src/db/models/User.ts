@@ -3,11 +3,35 @@ import { z } from "zod";
 import { db } from "../config";
 import { hash, hashSync } from "bcryptjs";
 
+const CourseSchema = z.object({
+  songId: z.instanceof(ObjectId),
+  name: z.string(),
+  artist: z.string(),
+  progress: z.string(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+});
+
 const UserSchema = z.object({
   name: z.string(),
-  username: z.string(),
+  username: z
+    .string()
+    .refine(
+      (username) => {
+        return Boolean(username);
+      },
+      { message: "must be filled" }
+    )
+    .refine(
+      async (username) => {
+        const existingUser = await db.collection("Users").findOne({ username });
+        return !existingUser;
+      },
+      { message: "must be unique" }
+    ),
   email: z.string().email(),
   password: z.string().min(5),
+  courses: z.array(CourseSchema).optional(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });
@@ -35,11 +59,63 @@ export class User {
   }
 
   static async create(newUser: UserType) {
+    await UserSchema.parseAsync(newUser)
     newUser.password = await hash(newUser.password, 10);
+    newUser.createdAt = newUser.updatedAt = new Date();
+    newUser.courses = []
     const result = await this.col().insertOne(newUser);
     return {
       ...newUser,
       _id: result.insertedId,
     };
+  }
+
+  static async addCourse(userId: string, songId: string, songName: string, songArtist: string, progress: string = "On Progress") {
+    const existingCourse = await this.col().findOne({
+      _id: new ObjectId(userId),
+      "courses.songId": new ObjectId(songId),
+    });
+
+    if (existingCourse) {
+      throw new Error("Course already added");
+    }
+
+    const course = {
+      songId: new ObjectId(songId),
+      name: songName,
+      artist: songArtist,
+      progress,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+
+    const result = await this.col().updateOne(
+      {_id: new ObjectId(userId) },
+      {
+        $push: {courses: course},
+        $set: {updatedAt: new Date() },
+      }
+    );
+    
+    return result;
+  }
+
+  static async updateCourseProgress(userId: string, songId: string, progress: string = "Done") {
+    const result = await this.col().updateOne(
+      {_id: new ObjectId(userId), "courses.songId": new ObjectId(songId) },
+      { $set: { "courses.$.progress": progress, "courses.$.updatedAt": new Date(), updatedAt: new Date()} }
+    )
+    return result;
+  }
+
+  static async findCourse(userId: string, songId: string) {
+    const user = await this.col().findOne({
+      _id: new ObjectId(userId),
+      "courses.songId": new ObjectId(songId),
+    });
+
+    const course = user?.courses?.find(course => course.songId.equals(new ObjectId(songId)))
+    
+    return course;
   }
 }
