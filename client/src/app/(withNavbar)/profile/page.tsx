@@ -1,6 +1,7 @@
 'use client';
 import ProfileCourseCard from "@/components/ProfileCourseCard";
 import { UserType } from "@/db/models/User";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 // interface UserData {
@@ -15,6 +16,7 @@ export const dynamic = "force-dynamic";
 export default function Profile() {
   const [userData, setUserData] = useState<UserType | null>(null)
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = async () => {
     try {
@@ -38,6 +40,8 @@ export default function Profile() {
     } catch (err) {
       console.error(err);
       setError((err as Error).message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,11 +84,26 @@ export default function Profile() {
           <h2 className="text-2xl font-semibold text-black mb-4 font-libre px-5">
             Course Information
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {userData?.courses?.map(course => {
-              return <ProfileCourseCard key={course.songId.toString()} course={course}/>;
-            })}
-          </div>
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className="bg-gray-200 h-32 rounded-lg animate-pulse"></div>
+              ))}
+            </div>
+          ) : userData?.courses && userData.courses.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {userData.courses.map(course => (
+                <ProfileCourseCard key={course.songId.toString()} course={course} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-gray-600 font-cousine">You haven't added any courses yet.</p>
+              <Link href="/songs" className="mt-4 inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                Explore Songs
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </>
