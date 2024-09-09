@@ -143,4 +143,12 @@ export class User {
     
     return course || null;
   }
+
+  static async updateSubscription(userId: string, subscription: string) {
+    const result = await this.col().updateOne(
+      {_id: new ObjectId(userId) },
+      { $set: { subscription } }
+    );
+    return result;
+  }
 }
