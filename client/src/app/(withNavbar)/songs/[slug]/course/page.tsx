@@ -2,6 +2,9 @@ import YouTubePlayer from "@/components/YoutubePlayer";
 import { SongType } from "@/db/models/Song";
 import Chat from "@/components/Chat";
 import UpdateProgressLesson from "@/components/UpdateProgressLesson";
+import { User, UserType } from "@/db/models/User";
+import { cookies } from "next/headers";
+import AddSongToCourse from "@/components/AddSongToCourse";
 
 type Props = {
   params: {
@@ -23,9 +26,32 @@ async function getSongBySlug(slug: string): Promise<SongType | undefined> {
   }
 }
 
+async function getUser() {
+  try {
+    const response = await fetch(`http://localhost:3000/api/user`, {
+      headers: {
+        Cookie: cookies().toString(),
+      },
+    });
+
+    if (!response.ok) throw new Error(`Response status: ${response.status}`);
+
+    const data: UserType = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export default async function Course(props: Props) {
   const song = await getSongBySlug(props.params.slug);
-  // console.log(song, "<<<<<<< hereeeeeee");
+  const user = await getUser();
+  // console.log(user, "<<<<<<<<< userData");
+
+  if (!user) {
+    return null;
+  }
 
   if (!song) {
     return (
@@ -34,6 +60,13 @@ export default async function Course(props: Props) {
       </div>
     );
   }
+
+  const course = await User.findCourse(
+    user._id.toString(),
+    song._id.toString()
+  );
+
+  // console.log(course, "<<<<<<<<< hereeeeeeeeeee");
 
   return (
     <>
@@ -47,7 +80,11 @@ export default async function Course(props: Props) {
               className="font-mono text-sm bg-gray-100 p-4 rounded-lg overflow-hidden"
               style={{ height: "400px", overflowY: "auto" }}
             >
-              <img src={song.tabImg} alt={song.name} className="w-full h-auto" />
+              <img
+                src={song.tabImg}
+                alt={song.name}
+                className="w-full h-auto"
+              />
             </div>
           </div>
           <div className="flex-1 bg-white shadow-lg rounded-xl p-6">
@@ -66,7 +103,18 @@ export default async function Course(props: Props) {
           {/* <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
             Mark As Done
           </button> */}
-          <UpdateProgressLesson song={song} />
+          {course?.progress === "On Progress" ? (
+            <UpdateProgressLesson song={song} />
+          ) : course?.progress === "Done" ? (
+            <button
+              disabled
+              className="bg-yellow-500 text-black font-bold py-3 px-8 rounded-full"
+            >
+              Done ✔
+            </button>
+          ) : (
+            <AddSongToCourse key={song.slug} song={song} />
+          )}
         </div>
       </div>
       <Chat />
