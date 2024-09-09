@@ -72,8 +72,18 @@ export default async function Course(props: Props) {
     <>
       <div className="container mx-auto px-4 py-8 flex flex-col h-1/2 mt-20">
         <div className="flex justify-end md:flex-row gap-8 mb-10">
-          <UpdateProgressLesson song={song} />
-
+          {course?.progress === "On Progress" ? (
+            <UpdateProgressLesson song={song} />
+          ) : course?.progress === "Done" ? (
+            <button
+              disabled
+              className="bg-yellow-500 text-black font-bold py-3 px-8 rounded-full"
+            >
+              Done ✔
+            </button>
+          ) : (
+            <AddSongToCourse key={song.slug} song={song} />
+          )}
         </div>
         <Accordion song={song} />
       </div>
