@@ -52,7 +52,7 @@ const Chat = () => {
             exit={{ opacity: 0, y: 20 }}
             className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-yellow-400 w-96 mb-4"
           >
-            <div className="h-[calc(100vh-8rem)] max-h-[32rem] flex flex-col">
+            <div className="h-[calc(100vh-8rem)] max-h-[32rem] flex flex-col text-sm">
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {messages.map((msg, index) => (
                   <div key={index} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}>
