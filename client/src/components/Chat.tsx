@@ -10,6 +10,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -22,6 +23,8 @@ const Chat = () => {
     if (!inputMessage.trim()) return;
     const userMessage: Message = { text: inputMessage, isUser: true };
     setMessages((prev) => [...prev, userMessage]);
+    setInputMessage('');
+    setIsLoading(true);
 
     try {
       const res = await fetch('/api/chat', {
@@ -37,9 +40,9 @@ const Chat = () => {
     } catch (error) {
       console.error('Error:', error);
       setMessages((prev) => [...prev, { text: 'Sorry, an error occurred.', isUser: false }]);
+    } finally {
+      setIsLoading(false);
     }
-
-    setInputMessage('');
   };
 
   return (
@@ -71,6 +74,13 @@ const Chat = () => {
                     </div>
                   </div>
                 ))}
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <div className="max-w-[70%] p-3 rounded-2xl text-black">
+                      Just a sec, our AI buddy is brainstorming...
+                    </div>
+                  </div>
+                )}
               </div>
               <form onSubmit={handleSubmit} className="bg-gray-50 p-3">
                 <div className="flex items-center space-x-2">
@@ -80,10 +90,12 @@ const Chat = () => {
                     onChange={(e) => setInputMessage(e.target.value)}
                     placeholder="Type your message..."
                     className="flex-1 border-2 border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                    disabled={isLoading}
                   />
                   <button
                     type="submit"
                     className="bg-yellow-400 text-black p-2 rounded-full hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all duration-300"
+                    disabled={isLoading}
                   >
                     <FaPaperPlane />
                   </button>
