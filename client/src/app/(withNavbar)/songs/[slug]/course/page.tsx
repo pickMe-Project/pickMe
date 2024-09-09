@@ -1,6 +1,7 @@
 import YouTubePlayer from "@/components/YoutubePlayer";
 import { SongType } from "@/db/models/Song";
 import Chat from "@/components/Chat";
+import UpdateProgressLesson from "@/components/UpdateProgressLesson";
 
 type Props = {
   params: {
@@ -62,9 +63,10 @@ export default async function Course(props: Props) {
           </div>
         </div>
         <div className="mt-10 text-center">
-          <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-            Start Practice
-          </button>
+          {/* <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+            Mark As Done
+          </button> */}
+          <UpdateProgressLesson song={song} />
         </div>
       </div>
       <Chat />

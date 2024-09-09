@@ -101,6 +101,27 @@ export class User {
   }
 
   static async updateCourseProgress(userId: string, songId: string, progress: string = "Done") {
+    const user = await this.col().findOne({
+      _id: new ObjectId(userId),
+      "courses.songId": new ObjectId(songId),
+    });
+
+    if (!user || !user.courses) {
+      throw new Error("User or course not found");
+    }
+
+     const course = user.courses.find((course) =>
+       course.songId.equals(new ObjectId(songId))
+     );
+
+     if (!course) {
+       throw new Error("Course not found");
+     }
+
+     if (course.progress === "Done") {
+       throw new Error("Course progress is already marked as Done");
+     }
+
     const result = await this.col().updateOne(
       {_id: new ObjectId(userId), "courses.songId": new ObjectId(songId) },
       { $set: { "courses.$.progress": progress, "courses.$.updatedAt": new Date(), updatedAt: new Date()} }
@@ -114,8 +135,12 @@ export class User {
       "courses.songId": new ObjectId(songId),
     });
 
-    const course = user?.courses?.find(course => course.songId.equals(new ObjectId(songId)))
+    if (!user || !user.courses) {
+      return null;
+    }
+
+    const course = user.courses.find(course => course.songId.equals(new ObjectId(songId)))
     
-    return course;
+    return course || null;
   }
 }
