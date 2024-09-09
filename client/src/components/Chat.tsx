@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronUp, FaChevronDown, FaPaperPlane } from 'react-icons/fa';
+import ReactMarkdown from 'react-markdown';
 
 type Message = { text: string; isUser: boolean };
 
@@ -62,7 +63,11 @@ const Chat = () => {
                           : 'bg-gray-100 text-black'
                       }`}
                     >
-                      {msg.text}
+                      {msg.isUser ? (
+                        msg.text
+                      ) : (
+                        <ReactMarkdown>{msg.text}</ReactMarkdown>
+                      )}
                     </div>
                   </div>
                 ))}
