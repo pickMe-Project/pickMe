@@ -9,18 +9,20 @@ export const metadata: Metadata = {
   description: "Learn how to play guitar with pickMe!",
 };
 
-
 export default function WithNavbarLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const authCookie = cookies().get('Authorization')
+  const authCookie = cookies().get("Authorization");
+
   return (
-    <>
+    <div className="flex flex-col min-h-screen"> 
       {authCookie ? <NavbarSignin /> : <Navbar />}
-      {children}
+      <main className="flex-grow">
+        {children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
