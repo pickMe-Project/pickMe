@@ -8,8 +8,8 @@ type YouTubePlayerProps = {
 
 const YouTubePlayer = ({ videoId }: YouTubePlayerProps) => {
   const opts = {
-    // height: "400",
-    // width: "640",
+    height: "550",
+    width: "978", 
     playerVars: {
       autoplay: 0,
       controls: 1,
