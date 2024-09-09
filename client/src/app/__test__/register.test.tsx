@@ -76,10 +76,9 @@ describe("POST /api/register", () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toEqual(
-      expect.arrayContaining(["email must be unique"])
-    );
+    expect(body.error).toBe("Email Already Used");
   });
+
 
   it("should return an error for missing fields", async () => {
     const reqObj = {
@@ -112,9 +111,8 @@ describe("POST /api/register", () => {
     const response = await POST(reqObj);
     const body = await response.json();
 
-    
-  expect(response.status).toBe(400);
-  expect(body.error).toEqual(expect.arrayContaining(["email invalid format"]));
+    expect(response.status).toBe(400);
+    expect(body.error).toEqual(expect.arrayContaining(["email invalid email"]));
   });
 
   it("should return an error for username that is not unique", async () => {
