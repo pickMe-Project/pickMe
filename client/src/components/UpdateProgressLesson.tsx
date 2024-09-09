@@ -42,7 +42,8 @@ export default function UpdateProgressLesson({ song }: Props) {
       const responseBody = await response.json();
       //   console.log(responseBody, "<<<<<<< responseBody UpdateProgressLesson");
 
-      router.push(`/profile`);
+      // router.push(`/profile`);
+      router.refresh()
     } catch (error) {
       console.log(error);
     } finally {
