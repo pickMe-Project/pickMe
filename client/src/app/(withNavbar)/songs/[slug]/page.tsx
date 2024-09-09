@@ -41,9 +41,9 @@ export default async function SongDetail(props: Props) {
                     <h2 className="text-2xl text-gray-600 font-semibold font-libre">{song.artist}</h2>
                 </div>
                 <div className="w-full max-w-3xl">
-                    <div className="p-2 mb-4">
+                    <div className="mb-4">
                         <div>
-                            <div className="flex items-center p-2 justify-between gap-x-10">
+                            <div className="flex items-center justify-between gap-x-10">
                                 <div>
                                     <p className="text-sm text-gray-600 font-libre">Key:</p>
                                     <p className="text-base font-semibold">{song.key}</p>
@@ -69,17 +69,18 @@ export default async function SongDetail(props: Props) {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-end ">
+                    <div className="flex justify-end my-5 w-[43rem]">
                       <AddSongToCourse  key={song.slug} song={song}/>
                         {/* <Link href={`/songs/${song.slug}/course`}
                             className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 active:scale-95"
+
                         >
                             Add this song to my course
                         </Link> */}
                     </div>
                     <div className="mb-6">
                         <h3 className="text-lg font-semibold mb-2">Chords</h3>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 w-[43rem]">
                             {song.chords.map((song, index) => {
                                 return (
                                     <span className="px-2 py-1 bg-yellow-400 text-black rounded" key={index}>
