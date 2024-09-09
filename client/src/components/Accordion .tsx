@@ -1,4 +1,3 @@
-// components/Accordion.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -72,7 +71,7 @@ const Accordion = ({ song }: { song: any }) => {
       ></div>
       <h2 id="accordion-collapse-heading-3">
         {/* ------------   2nd   -------- */}
-        
+
         <button
           type="button"
           className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right  border-b-0 rounded-t-lg  focus:ring-gray-200 gap-3 `}

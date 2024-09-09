@@ -49,6 +49,7 @@ export default function AddSongToCourse({ song }: Props) {
         //   console.log(responseBody, "<<<<<<< responseBody AddSongToCourse");
 
         router.push(`/songs/${song.slug}/course`);
+        router.refresh()
     } catch (error) {
         console.log(error);
     } finally {

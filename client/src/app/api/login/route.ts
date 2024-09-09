@@ -14,12 +14,11 @@ export async function POST(req: Request, res: Response) {
         LoginSchema.parse(body)
         const user = await User.findOne({email: body.email})
         if(!user) {
-            return new Response("Invalid email/password",{status : 400})
+            return new Response("Invalid email/password")
         }
         const isPasswordValid = await compare(body.password, user.password)
-        if(!isPasswordValid) {            
-            return new Response("Invalid password",{status : 400})
-            
+        if(!isPasswordValid) {
+            return new Response("Invalid password")
         }
 
         const {password, ...safeUser} = user
@@ -36,4 +35,3 @@ export async function POST(req: Request, res: Response) {
         
     }
 }
-   

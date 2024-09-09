@@ -2,6 +2,33 @@ import { z, ZodError } from "zod";
 import { User, UserType } from "@/db/models/User";
 import { db } from "@/db/config";
 
+const courseSchema = z.object({
+  id: z.string(), 
+  title: z.string(),
+});
+
+const RegisterSchema = z.object({
+  name: z.string().min(1, { message: "must be filled" }),
+  username: z
+    .string()
+    .min(1, { message: "must be filled" })
+    .refine(
+      async (username) => {
+        const existingUser = await db.collection("Users").findOne({ username });
+        return !existingUser;
+      },
+      { message: "must be unique" }
+    ),
+  email: z.string().email({ message: "invalid format" }).refine(
+    async (email) => {
+      const existingUser = await db.collection("Users").findOne({ email });
+      return !existingUser;
+    },
+    { message: "must be unique" }
+  ),
+  courses: z.array(courseSchema),
+  password: z.string().min(5, { message: "minimum 5 characters" }),
+});
 
 //--------------- course schema -----------
 // const courseSchema = z.object({
@@ -9,7 +36,6 @@ import { db } from "@/db/config";
 //   title: z.string(),
 // });
 //-----------
-
 
 // const RegisterSchema = z.object({
 //   name: z.string(),
