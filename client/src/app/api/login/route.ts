@@ -7,8 +7,20 @@ const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string(),
 });
-
 export const dynamic = "force-dynamic";
+export async function POST(req: Request, res: Response) {
+    try {
+        const body = await req.json() as UserType
+        LoginSchema.parse(body)
+        const user = await User.findOne({email: body.email})
+        if(!user) {
+            return new Response("Invalid email/password",{status : 400})
+        }
+        const isPasswordValid = await compare(body.password, user.password)
+        if(!isPasswordValid) {            
+            return new Response("Invalid password",{status : 400})
+            
+        }
 
 export async function POST(req: Request) {
   try {

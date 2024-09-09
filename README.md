@@ -5,8 +5,7 @@
 ## Tech Stack
 
 - **Frontend**: Next.js, Tailwind CSS
-- **Backend**: MongoDB, Redis
-- **Authentication**: Google Auth for login/register
+- **Backend**: MongoDB
 
 ## Features
 
@@ -23,8 +22,7 @@
 - Progress is visualized using a dynamic progress bar, allowing users to see their improvement over time.
 
 ### 4. Secure Authentication
-- Google Auth integration provides a quick and secure login and registration process.
-- User data is managed securely with MongoDB and Redis for session management.
+- User data is managed securely with MongoDB.
 
 ### 5. Modern and Responsive Design
 - Built with Next.js for server-side rendering (SSR) and optimized performance.

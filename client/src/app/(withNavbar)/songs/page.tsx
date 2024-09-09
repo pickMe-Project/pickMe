@@ -1,5 +1,4 @@
 "use client";
-
 import Searchbar from "@/components/Searchbar";
 import SongCard from "@/components/SongCard";
 import { SongType } from "@/db/models/Song";
@@ -11,9 +10,11 @@ export default function Songs() {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getSongs = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `http://localhost:3000/api/songs?page=${page}&limit=6&search=${search}`
@@ -21,7 +22,6 @@ export default function Songs() {
 
         if (!response.ok) throw new Error("Failed to fetch songs");
         const data: SongType[] = await response.json();
-
         if (data.length < 6) {
           setHasMore(false);
         }
@@ -35,6 +35,8 @@ export default function Songs() {
         });
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getSongs();
@@ -63,14 +65,19 @@ export default function Songs() {
         <Searchbar handleSearchChange={handleSearchChange} search={search} />
       </div>
 
-      {/* songs */}
+      {/* Songs */}
       <InfiniteScroll
         dataLength={songs.length}
         next={loadMore}
         hasMore={hasMore}
         loader={
-          <div className="my-10 justify-center items-center mx-auto text-center">
-            Loading...
+          <div className="my-10 flex justify-center items-center mx-auto">
+            <div className="relative inline-flex">
+              <div className="w-8 h-8 bg-yellow-400 rounded-full"></div>
+              <div className="w-8 h-8 bg-yellow-400 rounded-full absolute top-0 left-0 animate-ping"></div>
+              <div className="w-8 h-8 bg-yellow-400 rounded-full absolute top-0 left-0 animate-pulse"></div>
+            </div>
+            <span className="ml-4 font-cousine text-lg text-gray-600">Loading...</span>
           </div>
         }
         endMessage={
@@ -88,9 +95,11 @@ export default function Songs() {
             })}
           </div>
         ) : (
-          <div className="container mx-auto px-4 py-8">
-            <p className="text-center text-red-600">Song not found</p>
-          </div>
+          !isLoading && (
+            <div className="container mx-auto px-4 py-8">
+              <p className="text-center text-red-600 font-cousine">Song not found</p>
+            </div>
+          )
         )}
       </InfiniteScroll>
     </>
