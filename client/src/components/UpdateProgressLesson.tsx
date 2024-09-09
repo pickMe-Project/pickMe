@@ -11,12 +11,14 @@ type Props = {
 export default function UpdateProgressLesson({ song }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   const handleUpdateProgressLesson = async (
     songId: string,
     songProgress: string
   ) => {
     setLoading(true);
+    setIsDone(true);
 
     const form = {
       songId,
@@ -31,7 +33,6 @@ export default function UpdateProgressLesson({ song }: Props) {
           "Content-Type": "application/json",
         },
       });
-      // console.log(response, "<<<<<<<<< responseComponentUpdateProgressLesson");
 
       if (!response.ok) {
         const errorBody = await response.json();
@@ -43,7 +44,7 @@ export default function UpdateProgressLesson({ song }: Props) {
       //   console.log(responseBody, "<<<<<<< responseBody UpdateProgressLesson");
 
       // router.push(`/profile`);
-      router.refresh()
+      router.refresh();
     } catch (error) {
       console.log(error);
     } finally {
@@ -59,7 +60,7 @@ export default function UpdateProgressLesson({ song }: Props) {
       }}
       className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
     >
-      Mark As Done
+      {isDone ? <>Done</> : <>Mark As Done</>}
     </button>
   );
 }
