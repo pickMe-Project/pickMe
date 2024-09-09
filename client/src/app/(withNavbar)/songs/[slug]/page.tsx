@@ -47,10 +47,6 @@ export default async function SongDetail(props: Props) {
   const user = await getUser();
   // console.log(user, "<<<<<<<<< userData");
 
-  if (!user) {
-    return null;
-  }
-
   if (!song) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -59,10 +55,10 @@ export default async function SongDetail(props: Props) {
     );
   }
 
-  const course = await User.findCourse(
+  const course = user ? await User.findCourse(
     user._id.toString(),
     song._id.toString()
-  );
+  ) : null;
 
 //   console.log(course, "<<<<<<<<< hereeeeeeeeeee");
 
@@ -107,28 +103,28 @@ export default async function SongDetail(props: Props) {
               </div>
             </div>
           </div>
-          <div className="flex justify-end my-5 w-[43rem]">
-            {!course ? (
-              <AddSongToCourse key={song.slug} song={song} />
-            ) : (
-              <Link
-                href={`/songs/${song.slug}/course`}
-                className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 active:scale-95"
-              >
-                View Course
-              </Link>
-            )}
-          </div>
+            <div className="flex justify-end my-5 w-[43rem]">
+              {!course ? (
+                <AddSongToCourse key={song.slug} song={song} />
+              ) : (
+                <Link
+                  href={`/songs/${song.slug}/course`}
+                  className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 active:scale-95"
+                >
+                  View Course
+                </Link>
+              )}
+            </div>
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Chords</h3>
             <div className="flex flex-wrap gap-2">
-              {song.chords.map((song, index) => {
+              {song.chords.map((chord, index) => {
                 return (
                   <span
                     className="px-2 py-1 bg-yellow-400 text-black rounded"
                     key={index}
                   >
-                    {song}
+                    {chord}
                   </span>
                 );
               })}
