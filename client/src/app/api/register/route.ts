@@ -3,24 +3,19 @@ import { User, UserType } from "@/db/models/User";
 import { db } from "@/db/config";
 
 
-//--------------- course schema -----------
+
 const courseSchema = z.object({
   id: z.string(), 
   title: z.string(),
 });
-//-----------
+
 
 
 const RegisterSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, { message: "must be filled" }),
   username: z
     .string()
-    .refine(
-      (username) => {
-        return Boolean(username);
-      },
-      { message: "must be filled" }
-    )
+    .min(1, { message: "must be filled" })
     .refine(
       async (username) => {
         const existingUser = await db.collection("Users").findOne({ username });
@@ -28,9 +23,15 @@ const RegisterSchema = z.object({
       },
       { message: "must be unique" }
     ),
-  email: z.string().email(),
+  email: z.string().email({ message: "invalid format" }).refine(
+    async (email) => {
+      const existingUser = await db.collection("Users").findOne({ email });
+      return !existingUser;
+    },
+    { message: "must be unique" }
+  ),
   courses: z.array(courseSchema),
-  password: z.string().min(5),
+  password: z.string().min(5, { message: "minimum 5 characters" }),
 });
 
 export async function POST(request: Request) {

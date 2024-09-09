@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+
+
 export default function Register() {
     const handleRegister = async (formData: FormData) => {
       "use server";

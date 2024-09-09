@@ -4,7 +4,7 @@
 
 import "dotenv/config";
 import { MongoClient } from "mongodb";
-import { POST } from "@/app/api/register/route"; // Update the import path according to your project structure
+import { POST } from "@/app/api/register/route";
 import { hash } from "bcryptjs";
 
 const MONGO_URI = process.env.DATA_BASE_URL;
@@ -51,12 +51,14 @@ describe("POST /api/register", () => {
     expect(user.username).toBe("john_doe");
   });
 
+
+
   it("should return an error for duplicate email", async () => {
     await db.collection("Users").insertOne({
       name: "Jane Doe",
       username: "jane_doe",
       email: "jane.doe@example.com",
-      courses: [{ id: "2", title: "Science" }],
+      courses: [{ id: "2", title: "Guitar" }],
       password: await hash("password123", 10),
     });
 
@@ -65,7 +67,7 @@ describe("POST /api/register", () => {
         name: "John Doe",
         username: "john_doe",
         email: "jane.doe@example.com",
-        courses: [{ id: "1", title: "Math" }],
+        courses: [{ id: "1", title: "Drums  " }],
         password: "password123",
       }),
     } as any;
@@ -73,8 +75,10 @@ describe("POST /api/register", () => {
     const response = await POST(reqObj);
     const body = await response.json();
 
-    // expect(response.status).toBe(400);
-    // expect(body.error).toBe("Email must be unique");
+    expect(response.status).toBe(400);
+    expect(body.error).toEqual(
+      expect.arrayContaining(["email must be unique"])
+    );
   });
 
   it("should return an error for missing fields", async () => {
@@ -90,8 +94,8 @@ describe("POST /api/register", () => {
     const response = await POST(reqObj);
     const body = await response.json();
 
-    // expect(response.status).toBe(400);
-    // expect(body.error).toContain("password is required");
+    expect(response.status).toBe(400);
+    expect(body.error).toEqual(expect.arrayContaining(["password required"]));;
   });
 
   it("should return an error for invalid email format", async () => {
@@ -108,8 +112,9 @@ describe("POST /api/register", () => {
     const response = await POST(reqObj);
     const body = await response.json();
 
-    // expect(response.status).toBe(400);
-    // expect(body.error).toContain("email invalid");
+    
+  expect(response.status).toBe(400);
+  expect(body.error).toEqual(expect.arrayContaining(["email invalid format"]));
   });
 
   it("should return an error for username that is not unique", async () => {

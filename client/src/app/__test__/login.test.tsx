@@ -72,8 +72,10 @@ describe("POST /api/login", () => {
        const body = await response.json();
 
        console.log(body,">>>>>");
-      // expect(body).toBe(400);
-      // expect(body).toContain("email: invalid email");
+      expect(response.status).toBe(400);
+      expect(body).toEqual({
+        errors: [{ field: "email", message: "invalid email" }],
+      });
     });
 
     it("should return an error for incorrect password", async () => {
@@ -91,41 +93,41 @@ describe("POST /api/login", () => {
       const response = await POST(reqObj);
       const body = await response.json();
 
-      // expect(body).toBe(400);
-      // expect(body).toBe("Invalid password");
+       expect(response.status).toBe(400);
+       expect(body).toEqual({ errors: ["Invalid password"] });
     });
 
-    it("should return an error for non-existent user", async () => {     
+    it("should return an error for non-existent user", async () => {
+      const reqObj = {
+        json: () => ({
+          email: "wrong@example.com",
+          password: "passwordInvalid",
+        }),
+      } as any;
+      const response = await POST(reqObj);
+      const body = await response.json();
 
-     const reqObj = {
-       json: () => ({
-         email: "wrong@example.com",
-         password: "passwordInvalid",
-       }),
-     } as any;
-     const response = await POST(reqObj);
-     const body = await response.json();
-
-      // expect(body).toBe(400);
-      // expect(body).toBe("Invalid email/password");
+      expect(response.status).toBe(400);
+      expect(body).toEqual({ errors: ["Invalid email/password"] });
     });
 
     it("should return validation error for missing fields", async () => {
-     const hashedPassword = await hash("password123", 10);
-     await db
-       .collection("Users")
-       .insertOne({ email: "test@example.com", password: hashedPassword });
+      const hashedPassword = await hash("password123", 10);
+      await db
+        .collection("Users")
+        .insertOne({ email: "test@example.com", password: hashedPassword });
 
-     const reqObj = {
-       json: () => ({
-         email: "test@example.com",
-       }),
-     } as any;
-     const response = await POST(reqObj);
-     const body = await response.json();
+      const reqObj = {
+        json: () => ({
+          email: "test@example.com",
+        }),
+      } as any;
+      const response = await POST(reqObj);
+      const body = await response.json();
 
-
-      // expect(body).toBe(400);
-      // expect(body).toContain("password: required");
+      expect(response.status).toBe(400);
+      expect(body).toEqual({
+        errors: [{ field: "password", message: "required" }],
+      });
     });
 });
