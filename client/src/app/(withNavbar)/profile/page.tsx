@@ -50,7 +50,7 @@ export default function Profile() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center">
           <img
-            src="/PickMe_transparent.svg"
+            src="/default_pic.png"
             alt="Profile Picture"
             className="w-28 h-28 rounded-full mb-4 bg-gray-100"
           />
