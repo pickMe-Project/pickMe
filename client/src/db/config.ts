@@ -10,7 +10,8 @@ const client = new MongoClient(uri, {
   },
 });
 
-const dbName = "final_project_pick_me";
+let dbName = process.env.DB_NAME;
+if (process.env.NODE_ENV === "test") dbName += "_test";
 
 export const db = client.db(dbName);
 
