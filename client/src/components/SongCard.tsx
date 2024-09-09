@@ -13,22 +13,7 @@ export default function SongCard({ song }: Props) {
           <h2 className="text-xl font-bold font-libre text-black">
             {song.name}
           </h2>
-          <button className="text-black hover:text-yellow-400 transition-colors duration-300">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-          </button>
+          
         </div>
         <p className="text-sm text-gray-600 mb-1 font-cousine">
           Artist: {song.artist}
@@ -89,11 +74,12 @@ export default function SongCard({ song }: Props) {
         )}
         <div className="mb-3">
           <h3 className="text-sm font-semibold mb-1 font-libre">Chords:</h3>
-          <div className="flex flex-wrap gap-1 font-cousine">
+          <div className="flex flex-wrap gap-1 h-16 overflow-y-auto">
+            <div>
             {song.chords.map((chord, index) => {
               return (
                 <span
-                  className="bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5 text-xs"
+                  className="bg-gray-100 border border-gray-200 font-cousine rounded-full px-2 py-0.5 text-sm mb-1 mx-1"
                   key={index}
                 >
                   {chord}
@@ -109,6 +95,7 @@ export default function SongCard({ song }: Props) {
             <span className="bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5 text-xs">
               A7sus4
             </span> */}
+            </div>
           </div>
         </div>
         <Link
