@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronUp, FaChevronDown, FaPaperPlane } from 'react-icons/fa';
+import ReactMarkdown from 'react-markdown';
 
 type Message = { text: string; isUser: boolean };
 
@@ -9,6 +10,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -21,6 +23,8 @@ const Chat = () => {
     if (!inputMessage.trim()) return;
     const userMessage: Message = { text: inputMessage, isUser: true };
     setMessages((prev) => [...prev, userMessage]);
+    setInputMessage('');
+    setIsLoading(true);
 
     try {
       const res = await fetch('/api/chat', {
@@ -36,9 +40,9 @@ const Chat = () => {
     } catch (error) {
       console.error('Error:', error);
       setMessages((prev) => [...prev, { text: 'Sorry, an error occurred.', isUser: false }]);
+    } finally {
+      setIsLoading(false);
     }
-
-    setInputMessage('');
   };
 
   return (
@@ -51,7 +55,7 @@ const Chat = () => {
             exit={{ opacity: 0, y: 20 }}
             className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-yellow-400 w-96 mb-4"
           >
-            <div className="h-[calc(100vh-8rem)] max-h-[32rem] flex flex-col">
+            <div className="h-[calc(100vh-8rem)] max-h-[32rem] flex flex-col text-sm">
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {messages.map((msg, index) => (
                   <div key={index} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}>
@@ -62,10 +66,21 @@ const Chat = () => {
                           : 'bg-gray-100 text-black'
                       }`}
                     >
-                      {msg.text}
+                      {msg.isUser ? (
+                        msg.text
+                      ) : (
+                        <ReactMarkdown>{msg.text}</ReactMarkdown>
+                      )}
                     </div>
                   </div>
                 ))}
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <div className="max-w-[70%] p-3 rounded-2xl text-black">
+                      Just a sec, our AI buddy is brainstorming...
+                    </div>
+                  </div>
+                )}
               </div>
               <form onSubmit={handleSubmit} className="bg-gray-50 p-3">
                 <div className="flex items-center space-x-2">
@@ -75,10 +90,12 @@ const Chat = () => {
                     onChange={(e) => setInputMessage(e.target.value)}
                     placeholder="Type your message..."
                     className="flex-1 border-2 border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                    disabled={isLoading}
                   />
                   <button
                     type="submit"
                     className="bg-yellow-400 text-black p-2 rounded-full hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all duration-300"
+                    disabled={isLoading}
                   >
                     <FaPaperPlane />
                   </button>

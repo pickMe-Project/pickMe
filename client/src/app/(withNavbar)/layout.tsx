@@ -18,7 +18,7 @@ export default function WithNavbarLayout({
 
   return (
     <div className="flex flex-col min-h-screen"> 
-      {authCookie ? <NavbarSignin /> : <Navbar />}
+      {authCookie ? <NavbarSignin /> : <Navbar/>}
       <main className="flex-grow">
         {children}
       </main>
@@ -26,3 +26,4 @@ export default function WithNavbarLayout({
     </div>
   );
 }
+  

@@ -7,7 +7,6 @@ export async function GET(request: Request) {
     if (!response) {
       return new Response(JSON.stringify({ error: "User not found" }), { status: 404 });
     }
-    
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
     console.error(error);

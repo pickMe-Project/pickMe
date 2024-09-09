@@ -107,7 +107,7 @@ export default async function SongDetail(props: Props) {
               </div>
             </div>
           </div>
-          <div className="flex justify-end ">
+          <div className="flex justify-end my-5 w-[43rem]">
             {!course ? (
               <AddSongToCourse key={song.slug} song={song} />
             ) : (
