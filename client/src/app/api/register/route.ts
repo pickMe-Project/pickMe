@@ -36,12 +36,11 @@ import { db } from "@/db/config";
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as UserType;
-    // await RegisterSchema.parseAsync(body);
 
     const userCheck = await User.findOne({ email: body.email });
 
     if (userCheck) {
-      return Response.json({ error: "Email must be unique" }, { status: 400 });
+      return Response.json({ error: "Email Already Used" }, { status: 400 });
     }
     await User.create(body);
     return Response.json({ message: "Registered" }, { status: 201 });

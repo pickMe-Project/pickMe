@@ -1,45 +1,75 @@
-import { cookies } from "next/headers";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+"use client"; 
 
-export const dynamic = "force-dynamic";
-export default async function Login() {
-  const handeLogin = async (formData: FormData) => {
-    "use server";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
+
+export default function Login() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const error = query.get('error');
+    
+    if (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: "invalid Email or Password",
+      });
+
+      router.replace(window.location.pathname);
+    }
+  }, [router]);
+
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
     const form = {
       email: formData.get("email"),
       password: formData.get("password"),
     };
-    const response = await fetch(`http://localhost:3000/api/login`, {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    
 
-    if (!response.ok) {
-      const errorBody = await response.text();
-      return redirect("/login?error=" + encodeURIComponent(errorBody));
-    }
-    const responseBody = await response.json();
-    
-    if (responseBody && responseBody.access_token) {
-      cookies().set("Authorization", "Bearer " + responseBody.access_token);
-      return redirect("/");
-    } else {
-      console.error("Invalid response body:", responseBody);
-      return redirect("/login?error=Invalid+response+from+server");
+    try {
+      const response = await fetch(`/api/login`, {
+        method: "POST",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        window.location.href = "/login?error=" + encodeURIComponent(errorBody);
+        return;
+      }
+
+      const responseBody = await response.json();
+
+      if (responseBody && responseBody.access_token) {
+        document.cookie = `Authorization=Bearer ${responseBody.access_token}; path=/`;
+        window.location.href = "/";
+      } else {
+        console.error("Invalid response body:", responseBody);
+        window.location.href = "/login?error=Invalid+response+from+server";
+      }
+    } catch (error) {
+      console.error("Unexpected Error:", error);
+      window.location.href = "/login?error=Unexpected+error+occurred";
     }
   };
+  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <div className="w-full max-w-md p-10 space-y-8 bg-white rounded-xl shadow-2xl">
         <h1 className="text-4xl font-bold text-center text-black font-libre">
           Sign In
         </h1>
-        <form action={handeLogin} className="mt-10 space-y-6 font-cousine">
+        <form onSubmit={handleLogin} className="mt-10 space-y-6 font-cousine">
           <div className="space-y-4">
             <div className="relative">
               <input
@@ -48,6 +78,7 @@ export default async function Login() {
                 type="email"
                 className="w-full px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
                 placeholder=" "
+                
               />
               <label
                 htmlFor="email"
@@ -63,6 +94,7 @@ export default async function Login() {
                 type="password"
                 className="w-full px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
                 placeholder=" "
+                
               />
               <label
                 htmlFor="password"
