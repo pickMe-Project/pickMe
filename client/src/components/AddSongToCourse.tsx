@@ -33,11 +33,17 @@ export default function AddSongToCourse({ song }: Props) {
             "Content-Type": "application/json",
           },
         });
-        //   console.log(response, "<<<<<<<<< responseComponentAddToSongCourse");
+          console.log(response, "<<<<<<<<< responseComponentAddToSongCourse");
 
         if (!response.ok) {
           const errorBody = await response.json();
 
+          if (
+            errorBody.error === "Invalid Token" ||
+            errorBody.error === "Please subscribe to PickMe!"
+          ) {
+            router.push(`/songs/${song.slug}/course`);
+          }
           if(errorBody.error === "Invalid Token") {
             router.push(`/songs/${song.slug}/course`);
           }
