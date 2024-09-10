@@ -69,9 +69,9 @@ export default async function Course(props: Props) {
 
 
   return (
-    <>
-      <div className="container mx-auto px-4 py-8 flex flex-col h-1/2 mt-20">
-        <div className="flex justify-end md:flex-row gap-8 mb-10">
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-col min-h-screen">
+        <div className="flex justify-end mb-6">
           {course?.progress === "On Progress" ? (
             <UpdateProgressLesson song={song} />
           ) : course?.progress === "Done" ? (
@@ -85,9 +85,13 @@ export default async function Course(props: Props) {
             <AddSongToCourse key={song.slug} song={song} />
           )}
         </div>
-        <Accordion song={song} />
+        <div className="flex-grow">
+          <Accordion song={song} />
+        </div>
+        <div className="mt-8">
+          <Chat />
+        </div>
       </div>
-      <Chat />
-    </>
+    </div>
   );
 }
