@@ -31,6 +31,7 @@ const UserSchema = z.object({
     ),
   email: z.string().email(),
   password: z.string().min(5),
+  subscription: z.boolean(),
   courses: z.array(CourseSchema).optional(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
@@ -63,6 +64,7 @@ export class User {
     newUser.password = await hash(newUser.password, 10);
     newUser.createdAt = newUser.updatedAt = new Date();
     newUser.courses = []
+    newUser.subscription = false
     const result = await this.col().insertOne(newUser);
     return {
       ...newUser,
@@ -144,7 +146,15 @@ export class User {
     return course || null;
   }
 
-  static async updateSubscription(userId: string, subscription: string) {
+  static async updateSubscription(userId: string, subscription: boolean = true) {
+    const user = await this.col().findOne({
+      _id: new ObjectId(userId)
+    });
+
+    if (user?.subscription === true) {
+      throw new Error("You already subscribed to PickMe");
+    }
+
     const result = await this.col().updateOne(
       {_id: new ObjectId(userId) },
       { $set: { subscription } }
