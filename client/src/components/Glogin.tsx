@@ -27,7 +27,7 @@ function GoogleLogin() {
       callback: async (response: any) => {
         try {
           console.log("Encoded JWT ID token: " + response.credential);
-          const { data } = await axios.post('https://localhost:3000/api/auth/google', {
+          const { data } = await axios.post('http://localhost:3000/api/auth/google', {
             googleToken: response.credential,
           });
 

@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import { User } from '../../../../db/models/User'; // Adjust the path as needed
+import { any, z } from 'zod';
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID as string);
 
@@ -10,8 +11,16 @@ type Data = {
   message?: string;
 };
 
+export type UserTypeGoogle = {
+  googleId: string;
+  email: string;
+  name: string;
+  username: string;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 const generateAccessToken = (user: any) => {
-  // Replace with actual secret and token generation logic
   return jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 };
 
@@ -33,23 +42,23 @@ export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
       const { sub: googleId, email, name } = payload;
 
-      // Connect to the database
 
-      // Check if the user already exists
-      let user = await User.findOne({ googleId });
+      let user = await User.findOne({ googleId }as any);
 
       if (!user) {
-        // Register a new user if not found
-        user = {
+        const newUser: UserTypeGoogle = {
           googleId,
-          email,
-          name,
-          // You can add other user fields here
+          email: email as string,
+          name: name as string,
+          username: email as string, 
+          password: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
         };
-        await User.create(user);
+         await User.createGoogle(newUser as any);
       }
 
-      // Generate an access token
+      // Generate an access token   
       const accessToken = generateAccessToken(user);
 
       res.status(200).json({ access_token: accessToken });
