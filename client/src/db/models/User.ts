@@ -32,7 +32,7 @@ const UserSchema = z.object({
     ),
   email: z.string().email(),
   password: z.string().min(5),
-  subscription: z.boolean(),
+  subscription: z.boolean().optional(),
   courses: z.array(CourseSchema).optional(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),

@@ -9,7 +9,7 @@ declare global {
 }
 
 function GoogleLogin() {
-   const route = useRouter()
+   const router = useRouter()
   useEffect(() => {
     // Check if Google API script is already loaded
     if (!window.google) {
@@ -41,10 +41,10 @@ function GoogleLogin() {
           
           if (responseBody && responseBody.access_token) {
             document.cookie = `Authorization=Bearer ${responseBody.access_token}; path=/`;
-            window.location.href = "/";
+            router.push("/")
           } else {
             console.error("Invalid response body:", responseBody);
-            window.location.href = "/login?error=Invalid+response+from+server";
+            router.push("/login?error=Invalid+response+from+server")
           }
 
         } catch (error) {

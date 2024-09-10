@@ -49,12 +49,12 @@ export async function POST(req: Request){
           googleId,
           email: email as string,
           name: name as string,
-          username: email as string, 
+          username: email?.split("@")[0] as string, 
           password: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         };
-         user = await User.createGoogle(newUser as any);
+         user = await User.createGoogle(newUser as any) as any
       }
 
       // Generate an access token   

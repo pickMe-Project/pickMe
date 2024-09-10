@@ -44,7 +44,7 @@ export default function Login() {
 
       if (!response.ok) {
         const errorBody = await response.text();
-        window.location.href = "/login?error=" + encodeURIComponent(errorBody);
+        router.push("/login?error=" + encodeURIComponent(errorBody))
         return;
       }
 
@@ -52,14 +52,14 @@ export default function Login() {
       
       if (responseBody && responseBody.access_token) {
         document.cookie = `Authorization=Bearer ${responseBody.access_token}; path=/`;
-        window.location.href = "/";
+        router.push("/")
       } else {
         console.error("Invalid response body:", responseBody);
-        window.location.href = "/login?error=Invalid+response+from+server";
+        router.push("/login?error=Invalid+response+from+server")
       }
     } catch (error) {
       console.error("Unexpected Error:", error);
-      window.location.href = "/login?error=Unexpected+error+occurred";
+      router.push("/login?error=Unexpected+error+occurred")
     }
   };
   
