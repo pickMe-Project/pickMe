@@ -1,4 +1,5 @@
 import ProtectedRoute from "@/components/ProtectedRoute";
+import SubscriptionProtectedRoute from "@/components/SubscriptionProtectedRoute";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,8 +13,8 @@ export default function WithNavbarLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ProtectedRoute>
+    <SubscriptionProtectedRoute>
       {children}
-    </ProtectedRoute>
+    </SubscriptionProtectedRoute>
   );
 }

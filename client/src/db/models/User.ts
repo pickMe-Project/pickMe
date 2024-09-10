@@ -73,6 +73,14 @@ export class User {
   }
 
   static async addCourse(userId: string, songId: string, songName: string, songArtist: string, progress: string = "On Progress") {
+    const user = await this.col().findOne({
+      _id: new ObjectId(userId),
+    });
+
+    if (!user?.subscription) {
+      throw new Error("Please subscribe to PickMe!");
+    }
+
     const existingCourse = await this.col().findOne({
       _id: new ObjectId(userId),
       "courses.songId": new ObjectId(songId),
