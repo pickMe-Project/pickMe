@@ -7,5 +7,6 @@ namespace NodeJS {
     OPEN_AI_API_KEY: string;
     NEXT_PUBLIC_CLIENT: string;
     SECRET: string;
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID: string;
   }
 }

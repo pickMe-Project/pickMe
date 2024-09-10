@@ -2,6 +2,7 @@ import { ObjectId, WithId } from "mongodb";
 import { z } from "zod";
 import { db } from "../config";
 import { hash, hashSync } from "bcryptjs";
+import { UserTypeGoogle } from "@/app/api/auth/google/route";
 
 const CourseSchema = z.object({
   songId: z.instanceof(ObjectId),
@@ -60,7 +61,7 @@ export class User {
   }
 
   static async create(newUser: UserType) {
-    await UserSchema.parseAsync(newUser)
+    await UserSchema.parseAsync(newUser);
     newUser.password = await hash(newUser.password, 10);
     newUser.createdAt = newUser.updatedAt = new Date();
     newUser.courses = []
@@ -68,6 +69,26 @@ export class User {
     const result = await this.col().insertOne(newUser);
     return {
       ...newUser,
+      _id: result.insertedId,
+    };
+  }
+
+  static async createGoogle(newUser: UserTypeGoogle) {
+    // Hapus validasi password karena login Google tidak memerlukan password
+    const { password, ...userWithoutPassword } = newUser;
+    await UserSchema.omit({ password: true }).parseAsync(userWithoutPassword);
+
+    const now = new Date();
+    const userToInsert = {
+      ...userWithoutPassword,
+      createdAt: now,
+      updatedAt: now,
+      courses: [],
+    };
+
+    const result = await this.col().insertOne(userToInsert as any);
+    return {
+      ...userToInsert,
       _id: result.insertedId,
     };
   }
@@ -80,7 +101,6 @@ export class User {
     if (!user?.subscription) {
       throw new Error("Please subscribe to PickMe!");
     }
-
     const existingCourse = await this.col().findOne({
       _id: new ObjectId(userId),
       "courses.songId": new ObjectId(songId),
@@ -97,20 +117,24 @@ export class User {
       progress,
       createdAt: new Date(),
       updatedAt: new Date(),
-    }
+    };
 
     const result = await this.col().updateOne(
-      {_id: new ObjectId(userId) },
+      { _id: new ObjectId(userId) },
       {
-        $push: {courses: course},
-        $set: {updatedAt: new Date() },
+        $push: { courses: course },
+        $set: { updatedAt: new Date() },
       }
     );
-    
+
     return result;
   }
 
-  static async updateCourseProgress(userId: string, songId: string, progress: string = "Done") {
+  static async updateCourseProgress(
+    userId: string,
+    songId: string,
+    progress: string = "Done"
+  ) {
     const user = await this.col().findOne({
       _id: new ObjectId(userId),
       "courses.songId": new ObjectId(songId),
@@ -120,22 +144,28 @@ export class User {
       throw new Error("User or course not found");
     }
 
-     const course = user.courses.find((course) =>
-       course.songId.equals(new ObjectId(songId))
-     );
+    const course = user.courses.find((course) =>
+      course.songId.equals(new ObjectId(songId))
+    );
 
-     if (!course) {
-       throw new Error("Course not found");
-     }
+    if (!course) {
+      throw new Error("Course not found");
+    }
 
-     if (course.progress === "Done") {
-       throw new Error("Course progress is already marked as Done");
-     }
+    if (course.progress === "Done") {
+      throw new Error("Course progress is already marked as Done");
+    }
 
     const result = await this.col().updateOne(
-      {_id: new ObjectId(userId), "courses.songId": new ObjectId(songId) },
-      { $set: { "courses.$.progress": progress, "courses.$.updatedAt": new Date(), updatedAt: new Date()} }
-    )
+      { _id: new ObjectId(userId), "courses.songId": new ObjectId(songId) },
+      {
+        $set: {
+          "courses.$.progress": progress,
+          "courses.$.updatedAt": new Date(),
+          updatedAt: new Date(),
+        },
+      }
+    );
     return result;
   }
 
@@ -149,8 +179,10 @@ export class User {
       return null;
     }
 
-    const course = user.courses.find(course => course.songId.equals(new ObjectId(songId)))
-    
+    const course = user.courses.find((course) =>
+      course.songId.equals(new ObjectId(songId))
+    );
+
     return course || null;
   }
 
@@ -164,7 +196,7 @@ export class User {
     }
 
     const result = await this.col().updateOne(
-      {_id: new ObjectId(userId) },
+      { _id: new ObjectId(userId) },
       { $set: { subscription } }
     );
     return result;

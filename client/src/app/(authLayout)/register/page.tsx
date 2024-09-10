@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import Link from "next/link";
+import GoogleLogin from "@/components/Glogin";
 
 
 
@@ -176,6 +177,7 @@ export default function Register() {
           </div>
         </form>
         <div className="text-center text-sm text-gray-600 mt-4 font-dmsans">
+        <GoogleLogin/>
           Already have an account?
           <Link href="/login" className="ml-1 text-black hover:underline transition duration-300">
             Sign in
