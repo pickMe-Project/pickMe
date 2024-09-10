@@ -32,6 +32,7 @@ const UserSchema = z.object({
     ),
   email: z.string().email(),
   password: z.string().min(5),
+  subscription: z.boolean(),
   courses: z.array(CourseSchema).optional(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
@@ -63,7 +64,8 @@ export class User {
     await UserSchema.parseAsync(newUser);
     newUser.password = await hash(newUser.password, 10);
     newUser.createdAt = newUser.updatedAt = new Date();
-    newUser.courses = [];
+    newUser.courses = []
+    newUser.subscription = false
     const result = await this.col().insertOne(newUser);
     return {
       ...newUser,
@@ -91,13 +93,14 @@ export class User {
     };
   }
 
-  static async addCourse(
-    userId: string,
-    songId: string,
-    songName: string,
-    songArtist: string,
-    progress: string = "On Progress"
-  ) {
+  static async addCourse(userId: string, songId: string, songName: string, songArtist: string, progress: string = "On Progress") {
+    const user = await this.col().findOne({
+      _id: new ObjectId(userId),
+    });
+
+    if (!user?.subscription) {
+      throw new Error("Please subscribe to PickMe!");
+    }
     const existingCourse = await this.col().findOne({
       _id: new ObjectId(userId),
       "courses.songId": new ObjectId(songId),
@@ -183,7 +186,15 @@ export class User {
     return course || null;
   }
 
-  static async updateSubscription(userId: string, subscription: string) {
+  static async updateSubscription(userId: string, subscription: boolean = true) {
+    const user = await this.col().findOne({
+      _id: new ObjectId(userId)
+    });
+
+    if (user?.subscription === true) {
+      throw new Error("You already subscribed to PickMe");
+    }
+
     const result = await this.col().updateOne(
       { _id: new ObjectId(userId) },
       { $set: { subscription } }

@@ -41,6 +41,8 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
+    console.log(request.headers, "<<<<<<<<< request.headersUser");
+    
 
     body.userId = request.headers.get("x-user-id") || "";
 
