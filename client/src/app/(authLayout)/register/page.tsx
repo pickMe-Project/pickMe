@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import Link from "next/link";
+import GoogleLogin from "@/components/Glogin";
 
 
 
