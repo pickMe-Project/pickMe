@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useRouter } from "next/navigation";
 
 declare global {
   interface Window {
@@ -8,6 +9,7 @@ declare global {
 }
 
 function GoogleLogin() {
+   const route = useRouter()
   useEffect(() => {
     // Check if Google API script is already loaded
     if (!window.google) {
@@ -32,6 +34,17 @@ function GoogleLogin() {
           });
 
           localStorage.setItem('access_token', data.access_token);
+
+          const responseBody = await response.json();
+
+          if (responseBody && responseBody.access_token) {
+            document.cookie = `Authorization=Bearer ${responseBody.access_token}; path=/`;
+            window.location.href = "/";
+          } else {
+            console.error("Invalid response body:", responseBody);
+            window.location.href = "/login?error=Invalid+response+from+server";
+          }
+
 
           // Navigate to the home page or perform other actions
           // For example, redirect:

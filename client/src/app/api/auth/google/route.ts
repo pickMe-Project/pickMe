@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { OAuth2Client } from 'google-auth-library';
-import jwt from 'jsonwebtoken';
+import  { sign } from 'jsonwebtoken';
 import { User } from '../../../../db/models/User'; // Adjust the path as needed
 import { any, z } from 'zod';
 
@@ -21,12 +21,11 @@ export type UserTypeGoogle = {
   updatedAt: Date;
 };
 const generateAccessToken = (user: any) => {
-  return jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+  return sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  if (req.method === 'POST') {
-    const { googleToken } = req.body;
+export async function POST(req: Request){
+    const { googleToken } = await req.json();
 
     try {
       // Verify the Google token
@@ -37,14 +36,14 @@ export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
       const payload = ticket.getPayload();
       if (!payload) {
-        return res.status(401).json({ message: 'Invalid Google token' });
+        return Response.json({ message: 'Invalid Google token' } ,{status : 401});
       }
 
       const { sub: googleId, email, name } = payload;
 
 
-      let user = await User.findOne({ googleId }as any);
-
+      let user = await User.findOne({ email }as any);
+      
       if (!user) {
         const newUser: UserTypeGoogle = {
           googleId,
@@ -55,19 +54,17 @@ export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
           createdAt: new Date(),
           updatedAt: new Date(),
         };
-         await User.createGoogle(newUser as any);
+         user = await User.createGoogle(newUser as any);
       }
 
       // Generate an access token   
+      
       const accessToken = generateAccessToken(user);
 
-      res.status(200).json({ access_token: accessToken });
+      return Response.json({ access_token: accessToken });
     } catch (error) {
       console.error('Error during Google authentication:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      return Response.json({ message: 'Internal Server Error' },{status:500});
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+
 };

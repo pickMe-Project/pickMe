@@ -20,7 +20,6 @@ export async function POST(req: Request, res: Response) {
         if(!isPasswordValid) {
             return new Response("Invalid password")
         }
-
         const {password, ...safeUser} = user
         const access_token = sign(safeUser, process.env.JWT_SECRET as string)
         return Response.json({access_token: access_token})
