@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export default function Subscription() {
   const router = useRouter();
   const [user, setuser] = useState<UserType>()
+  const [isLoading, setIsLoading] = useState(true);
 
   async function getUser() {
     try {
@@ -30,6 +31,8 @@ export default function Subscription() {
       return data
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -84,6 +87,13 @@ export default function Subscription() {
 
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="items-center justify-center text-center">
+        <div>Loading...</div>
+      </div>
+    );
+  }
   if (user?.subscription) {
     return (
       <div className="items-center justify-center text-center">
