@@ -44,9 +44,6 @@ export default function AddSongToCourse({ song }: Props) {
           ) {
             router.push(`/songs/${song.slug}/course`);
           }
-          if(errorBody.error === "Invalid Token") {
-            router.push(`/songs/${song.slug}/course`);
-          }
           console.log(errorBody, "<<<<< errorBody");
 
           return;
