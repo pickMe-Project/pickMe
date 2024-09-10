@@ -14,6 +14,7 @@ export default function AddSongToCourse({ song }: Props) {
 
   const handleAddSongToCourse = async (
     songId: string,
+    songSlug: string,
     songName: string,
     songArtist: string
   ) => {
@@ -21,6 +22,7 @@ export default function AddSongToCourse({ song }: Props) {
 
     const form = {
       songId,
+      songSlug,
       songName,
       songArtist,
     };
@@ -33,7 +35,6 @@ export default function AddSongToCourse({ song }: Props) {
             "Content-Type": "application/json",
           },
         });
-          console.log(response, "<<<<<<<<< responseComponentAddToSongCourse");
 
         if (!response.ok) {
           const errorBody = await response.json();
@@ -65,7 +66,7 @@ export default function AddSongToCourse({ song }: Props) {
     <button
       onClick={(e) => {
         e.preventDefault();
-        handleAddSongToCourse(song._id.toString(), song.name, song.artist);
+        handleAddSongToCourse(song._id.toString(), song.slug, song.name, song.artist);
       }}
       className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 active:scale-95"
     >

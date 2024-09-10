@@ -26,7 +26,7 @@ export default function Profile() {
           .split("; ")
           .find((row) => row.startsWith("Authorization="))
           ?.split("=")[1] || "";
-      console.log(authCookie);
+      // console.log(authCookie);
 
       const response = await fetch(`http://localhost:3000/api/user`, {
         method: "GET",

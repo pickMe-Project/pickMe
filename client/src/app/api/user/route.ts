@@ -21,9 +21,9 @@ export async function POST(request: Request) {
     
     body.userId = request.headers.get("x-user-id") || "";
 
-    const { songId, songName, songArtist, userId } = body
+    const { songId, songSlug, songName, songArtist, userId } = body
 
-    let response = await User.addCourse(userId, songId, songName, songArtist)
+    let response = await User.addCourse(userId, songId, songSlug, songName, songArtist)
     
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {

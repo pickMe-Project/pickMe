@@ -13,6 +13,8 @@ export async function PATCH(request: Request) {
 
     return new Response(JSON.stringify(response), { status: 200 });
   } catch (error) {
+    console.log(error, "<<<<<<<< error");
+    
     if (error instanceof Error) {
       return new Response(JSON.stringify({ error: error.message }), {
         status: 400,

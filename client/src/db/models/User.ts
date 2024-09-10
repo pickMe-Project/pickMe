@@ -6,6 +6,7 @@ import { UserTypeGoogle } from "@/app/api/auth/google/route";
 
 const CourseSchema = z.object({
   songId: z.instanceof(ObjectId),
+  slug: z.string(),
   name: z.string(),
   artist: z.string(),
   progress: z.string(),
@@ -93,7 +94,7 @@ export class User {
     };
   }
 
-  static async addCourse(userId: string, songId: string, songName: string, songArtist: string, progress: string = "On Progress") {
+  static async addCourse(userId: string, songId: string, songSlug: string, songName: string, songArtist: string, progress: string = "On Progress") {
     const user = await this.col().findOne({
       _id: new ObjectId(userId),
     });
@@ -112,6 +113,7 @@ export class User {
 
     const course = {
       songId: new ObjectId(songId),
+      slug: songSlug,
       name: songName,
       artist: songArtist,
       progress,
