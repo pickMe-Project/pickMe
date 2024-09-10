@@ -1,9 +1,8 @@
 import ProtectedRoute from "@/components/ProtectedRoute";
-import SubscriptionProtectedRoute from "@/components/SubscriptionProtectedRoute";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "pickMe! | Course",
+  title: "pickMe! | Subscription",
   description: "Learn how to play the song with our interactive course",
 };
 
@@ -13,8 +12,8 @@ export default function WithNavbarLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SubscriptionProtectedRoute>
+    <ProtectedRoute>
       {children}
-    </SubscriptionProtectedRoute>
+    </ProtectedRoute>
   );
 }
