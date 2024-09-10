@@ -49,7 +49,7 @@ export default function Login() {
       }
 
       const responseBody = await response.json();
-
+      
       if (responseBody && responseBody.access_token) {
         document.cookie = `Authorization=Bearer ${responseBody.access_token}; path=/`;
         window.location.href = "/";

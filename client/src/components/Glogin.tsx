@@ -35,8 +35,10 @@ function GoogleLogin() {
 
           localStorage.setItem('access_token', data.access_token);
 
-          const responseBody = await response.json();
-
+          const responseBody =  data
+          
+            console.log(responseBody);
+          
           if (responseBody && responseBody.access_token) {
             document.cookie = `Authorization=Bearer ${responseBody.access_token}; path=/`;
             window.location.href = "/";
@@ -45,10 +47,6 @@ function GoogleLogin() {
             window.location.href = "/login?error=Invalid+response+from+server";
           }
 
-
-          // Navigate to the home page or perform other actions
-          // For example, redirect:
-          // window.location.href = '/home';
         } catch (error) {
           console.error('Error during Google login:', error);
         }

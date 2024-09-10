@@ -21,7 +21,7 @@ export type UserTypeGoogle = {
   updatedAt: Date;
 };
 const generateAccessToken = (user: any) => {
-  return sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+  return sign(user, process.env.JWT_SECRET as string, { expiresIn: '1h' });
 };
 
 export async function POST(req: Request){
@@ -58,9 +58,9 @@ export async function POST(req: Request){
       }
 
       // Generate an access token   
-      
+        
       const accessToken = generateAccessToken(user);
-
+      
       return Response.json({ access_token: accessToken });
     } catch (error) {
       console.error('Error during Google authentication:', error);
