@@ -1,67 +1,52 @@
-import { NextResponse } from "next/server";
-import axios from "axios";
-import { MongoClient } from "mongodb";
-import { hash } from "bcryptjs";
-import { ObjectId } from "mongodb";
+const express = require('express');
+const { OAuth2Client } = require('google-auth-library');
+const User = require('../../models/User'); // Adjust path to your User model
 
+const router = express.Router();
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-
-type userGoogle = {
-  _id: ObjectId;
-  name: string;
-  username: string;
-  email: string;
-  courses: any[];
-  password: string;
-};
-
-const MONGO_URI = process.env.DATA_BASE_URL;
-const client = new MongoClient(MONGO_URI);
-
-export async function POST(req: Request) {
-  if (!client.connect()) await client.connect();
-  const db = client.db(process.env.DB_NAME);
-
-  const { token } = await req.json();
-console.log(token,"<<<<token");
+router.post('/api/auth/google', async (req, res) => {
+  const { googleToken } = req.body;
 
   try {
-    const googleRes = await axios.get(
-      "https://www.googleapis.com/oauth2/v3/userinfo",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const { email, name } = googleRes.data;
-
+    // Verify the Google token
+    const ticket = await client.verifyIdToken({
+      idToken: googleToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
     
-    let user = await db.collection("Users").findOne({ email });
+    const payload = ticket.getPayload();
+    const { sub: googleId, email, name } = payload;
+
+    // Check if the user already exists
+    let user = await User.findOne({ googleId });
 
     if (!user) {
-     
-      const hashedPassword = await hash(token, 10); 
-      const newUser: userGoogle = {
-        _id: new ObjectId(),
-        name,
-        username: email.split("@")[0], 
+      // Register a new user if not found
+      user = new User({
+        googleId,
         email,
-        courses: [],
-        password: hashedPassword,
-      };
-      await db.collection("Users").insertOne(newUser);
-      user = newUser;
+        name,
+        // You can add other user fields here
+      });
+      await user.save();
     }
 
-    return NextResponse.json(
-      { message: "Login success", user: { email, name } },
-      { status: 200 }
-    );
+    // Generate an access token or session (example shown is a placeholder)
+    const accessToken = generateAccessToken(user);
+
+    res.status(200).json({ access_token: accessToken });
   } catch (error) {
-    return NextResponse.json({ error: "Invalid token" }, { status: 400 });
-  } finally {
-    await client.close();
+    console.error('Error during Google authentication:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
-}
+});
+
+// Function to generate an access token (example placeholder)
+const generateAccessToken = (user) => {
+  // Implement token generation logic here
+  // Example: return jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  return 'exampleAccessToken'; // Replace with actual token logic
+};
+
+module.exports = router;
