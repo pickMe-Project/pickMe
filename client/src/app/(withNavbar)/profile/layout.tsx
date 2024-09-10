@@ -1,4 +1,4 @@
-import ProtectedRoute from "@/components/ProtectedRoute";
+import ProtectedRouteProfile from "@/components/ProtectedRouteProfile";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,8 +12,8 @@ export default function WithNavbarLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ProtectedRoute>
+    <ProtectedRouteProfile>
       {children}
-    </ProtectedRoute>
+    </ProtectedRouteProfile>
   );
 }

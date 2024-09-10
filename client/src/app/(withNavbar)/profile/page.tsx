@@ -49,6 +49,7 @@ export default function Profile() {
     fetchUser();
   }, []);
 
+
   return (
     <>
       <div className="container mx-auto px-4 py-8">
@@ -58,8 +59,22 @@ export default function Profile() {
             alt="Profile Picture"
             className="w-28 h-28 rounded-full mb-4 bg-gray-100"
           />
-          <h1 className="text-3xl font-bold text-black font-libre mb-6">
-            {userData ? userData.name : "Loading..."}
+          <h1 className="text-3xl font-bold text-black font-libre mb-2 flex items-center">
+            {userData ? (
+              <>
+                {userData.name}
+                {userData?.subscription && (
+                  <span className="ml-2 bg-green-400 text-white text-xs font-semibold px-2 py-1 rounded-full flex items-center">
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                    VIP
+                  </span>
+                )}
+              </>
+            ) : (
+              <span className="inline-block h-8 w-48 bg-gray-200 animate-pulse rounded"></span>
+            )}
           </h1>
           <div className="text-center mb-8">
             <p className="text-gray-600 font-libre">
