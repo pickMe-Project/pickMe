@@ -7,9 +7,9 @@ export default function Footer() {
               &copy; {new Date().getFullYear()} pickMe! All rights reserved.
             </div>
             <div className="flex space-x-6 font-cousine text-md">
-              <a href="#" className="hover:underline">Terms</a>
-              <a href="#" className="hover:underline">Privacy</a>
-              <a href="#" className="hover:underline">Contact</a>
+              <a href="#" className="hover:text-yellow-400 transition-colors duration-300 ease-in-out">Terms</a>
+              <a href="#" className="hover:text-yellow-400 transition-colors duration-300 ease-in-out">Privacy</a>
+              <a href="#" className="hover:text-yellow-400 transition-colors duration-300 ease-in-out">Contact</a>
             </div>
           </div>
         </div>
