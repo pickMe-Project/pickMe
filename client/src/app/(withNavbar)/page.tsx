@@ -5,7 +5,7 @@ import Link from "next/link";
 import Chat from "@/components/Chat";
 
 export default async function Home() {
-  const data = await fetch("http://localhost:3000/api/songs", {
+  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/songs`, {
     cache: "no-store",
   })
   const songs: SongType[] = await data.json()

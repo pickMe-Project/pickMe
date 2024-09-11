@@ -17,7 +17,7 @@ export default function Subscription() {
           .find((row) => row.startsWith("Authorization="))
           ?.split("=")[1] || "";
 
-      const response = await fetch(`http://localhost:3000/api/user`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export default function Subscription() {
 
   const handleSubscribe = async () => {
     try {
-      const response = await fetch("/api/token", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/token`, {
         method: "POST",
       });
 
@@ -56,7 +56,7 @@ export default function Subscription() {
 
           try {
             const response = await fetch(
-              `http://localhost:3000/api/subscription`,
+              `${process.env.NEXT_PUBLIC_BASE_URL}/api/subscription`,
               {
                 method: "PATCH",
                 body: JSON.stringify(form),

@@ -17,7 +17,7 @@ export default function Songs() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:3000/api/songs?page=${page}&limit=6&search=${search}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/songs?page=${page}&limit=6&search=${search}`
         );
 
         if (!response.ok) throw new Error("Failed to fetch songs");
