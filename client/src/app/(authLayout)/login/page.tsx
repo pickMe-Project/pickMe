@@ -53,6 +53,7 @@ export default function Login() {
       if (responseBody && responseBody.access_token) {
         document.cookie = `Authorization=Bearer ${responseBody.access_token}; path=/`;
         router.push("/")
+        router.refresh()
       } else {
         console.error("Invalid response body:", responseBody);
         router.push("/login?error=Invalid+response+from+server")
