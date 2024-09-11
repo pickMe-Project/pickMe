@@ -143,7 +143,7 @@ export default function Profile() {
           ) : (
             <div className="text-center py-8">
               <p className="text-gray-600 font-cousine">
-                You haven't added any courses yet.
+                You haven&apos;t added any courses yet.
               </p>
               <Link
                 href="/songs"
