@@ -2,14 +2,16 @@
 import GoogleLogin from "@/components/Glogin";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 
 export default function Login() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
     const form = {
@@ -29,7 +31,6 @@ export default function Login() {
       if (!response.ok) {
         const json = await response.json();
         const errorBody = json.error || "Login failed. Please try again.";
-        // router.push("/login?error=" + encodeURIComponent(errorBody));
         return Swal.fire({
           icon: 'error',
           title: 'Login Failed',
@@ -38,8 +39,6 @@ export default function Login() {
       }
 
       const responseBody = await response.json();
-      // console.log(responseBody, '<<<<<< responseBody');
-      
       
       if (responseBody && responseBody.access_token) {
         document.cookie = `Authorization=Bearer ${responseBody.access_token}; path=/`;
@@ -50,9 +49,9 @@ export default function Login() {
         router.push("/login?error=Invalid+response+from+server");
       }
     } catch (error) {
-      // console.log(error, '<<<<<< error');
-      // console.error("Unexpected Error:", error);
       router.push("/login?error=Unexpected+error+occurred");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -99,8 +98,9 @@ export default function Login() {
             <button
               type="submit"
               className="w-full px-6 py-3 text-white bg-black rounded-full hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 font-cousine shadow-md"
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
             <div className="flex justify-center mt-4">
               <GoogleLogin />
