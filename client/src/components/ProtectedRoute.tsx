@@ -8,7 +8,7 @@ type Props = {
 
 async function getUser() {
     try {
-      const response = await fetch(`http://localhost:3000/api/user`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user`, {
         headers: {
           Cookie: cookies().toString(),
         },
