@@ -89,7 +89,7 @@ export default function Songs() {
         }
       >
         {songs.length > 0 ? (
-          <div className="flex flex-wrap items-center justify-center min-h-screen bg-white gap-5 py-10">
+          <div className="flex flex-wrap items-center justify-center bg-white gap-5 py-10">
             {songs.map((song) => {
               return <SongCard key={song.slug} song={song} />;
             })}

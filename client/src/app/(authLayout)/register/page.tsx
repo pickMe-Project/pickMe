@@ -1,21 +1,29 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import Link from "next/link";
 import GoogleLogin from "@/components/Glogin";
 
-
-
-
 export default function Register() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+  });
 
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
+    setErrors({
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+    });
 
     const formData = new FormData(event.currentTarget);
     const form = {
@@ -26,33 +34,31 @@ export default function Register() {
       courses: [],
     };
 
+    let hasError = false;
+
     if (!form.name) {
-        Swal.fire({
-            icon: 'error',
-            title: 'name Required',
-          });
-          return setIsSubmitting(false)
+      setErrors((prev) => ({ ...prev, name: "Name is required" }));
+      hasError = true;
     }
     if (!form.username) {
-        Swal.fire({
-            icon: 'error',
-            title: 'username Required',
-          });
-          return setIsSubmitting(false)
+      setErrors((prev) => ({ ...prev, username: "Username is required" }));
+      hasError = true;
     }
     if (!form.email) {
-        Swal.fire({
-            icon: 'error',
-            title: 'email Required',
-          });
-          return setIsSubmitting(false)
+      setErrors((prev) => ({ ...prev, email: "Email is required" }));
+      hasError = true;
+    } else if (!/\S+@\S+\.\S+/.test(form.email as string)) {
+      setErrors((prev) => ({ ...prev, email: "Invalid email format" }));
+      hasError = true;
     }
     if (!form.password) {
-        Swal.fire({
-            icon: 'error',
-            title: 'password Required',
-          });
-          return setIsSubmitting(false)
+      setErrors((prev) => ({ ...prev, password: "Password is required" }));
+      hasError = true;
+    }
+
+    if (hasError) {
+      setIsSubmitting(false);
+      return;
     }
 
     try {
@@ -110,7 +116,6 @@ export default function Register() {
                 id="name"
                 name="name"
                 type="text"
-                
                 className="w-full px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
                 placeholder=" "
               />
@@ -120,6 +125,7 @@ export default function Register() {
               >
                 Full Name
               </label>
+              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
             </div>
             <div className="relative">
               <input
@@ -135,6 +141,7 @@ export default function Register() {
               >
                 Username
               </label>
+              {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
             </div>
             <div className="relative">
               <input
@@ -149,6 +156,7 @@ export default function Register() {
               >
                 Email
               </label>
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
             <div className="relative">
               <input
@@ -164,9 +172,10 @@ export default function Register() {
               >
                 Password
               </label>
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
             </div>
           </div>
-          <div className="pt-6">
+          <div className="pt-3">
             <button
               type="submit"
               disabled={isSubmitting}
@@ -176,8 +185,20 @@ export default function Register() {
             </button>
           </div>
         </form>
+        <div className="mt-4">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">Or continue with</span>
+            </div>
+          </div>
+          <div className="mt-3 flex justify-center">
+            <GoogleLogin />
+          </div>
+        </div>
         <div className="text-center text-sm text-gray-600 mt-4 font-dmsans">
-        <GoogleLogin/>
           Already have an account?
           <Link href="/login" className="ml-1 text-black hover:underline transition duration-300">
             Sign in

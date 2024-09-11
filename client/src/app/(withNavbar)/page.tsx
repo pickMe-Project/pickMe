@@ -98,11 +98,12 @@ export default async function Home() {
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
               <h2 className="text-5xl font-bold font-libre mb-6 tracking-wider">Discover Your Sound</h2>
               <p className="text-xl font-cousine mb-10 max-w-2xl">
-                Explore our vast collection of chords and songs. From classics to contemporary hits,
-                find the perfect melody to express yourself.
+                Unlock a lifetime of musical mastery! Subscribe once for unlimited access to our
+                extensive tabs and exclusive tutorial videos. From beginner to virtuoso, your
+                journey starts here.
               </p>
-              <Link href="/songs" className="bg-yellow-400 text-black font-bold py-3 px-8 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-yellow-500 active:scale-95 relative overflow-hidden group">
-                <span className="relative z-10">Explore Songs</span>
+              <Link href="/subscription" className="bg-yellow-400 text-black font-bold py-3 px-8 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:bg-yellow-500 active:scale-95 relative overflow-hidden group">
+                <span className="relative z-10">Subscribe</span>
                 <span className="absolute inset-0 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
               </Link>
             </div>
