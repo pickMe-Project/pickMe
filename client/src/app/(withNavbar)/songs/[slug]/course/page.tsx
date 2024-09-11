@@ -14,7 +14,7 @@ type Props = {
 
 async function getSongBySlug(slug: string): Promise<SongType | undefined> {
   try {
-    const response = await fetch(`http://localhost:3000/api/songs/` + slug);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/songs/` + slug);
 
     if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
@@ -28,7 +28,7 @@ async function getSongBySlug(slug: string): Promise<SongType | undefined> {
 
 async function getUser() {
   try {
-    const response = await fetch(`http://localhost:3000/api/user`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user`, {
       headers: {
         Cookie: cookies().toString(),
       },

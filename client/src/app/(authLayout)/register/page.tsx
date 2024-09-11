@@ -62,7 +62,7 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch(`/api/register`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/register`, {
         method: "POST",
         body: JSON.stringify(form),
         headers: {

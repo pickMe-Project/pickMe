@@ -18,7 +18,7 @@ export default function Login() {
     };
 
     try {
-      const response = await fetch(`/api/login`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
         method: "POST",
         body: JSON.stringify(form),
         headers: {
