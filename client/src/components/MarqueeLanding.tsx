@@ -29,7 +29,7 @@ function renderCards() {
     return reviews.map((review, index) => (
         <div key={index} className="mx-4 bg-white p-6 rounded-xl border border-gray-100 font-libre">
             <p className="text-xl mb-3">{review.stars}</p>
-            <p className="text-base mb-2">"{review.text}"</p>
+            <p className="text-base mb-2">&quot;{review.text}&quot;</p>
             <p className="text-sm text-gray-600">- {review.author}</p>
         </div>
     ));

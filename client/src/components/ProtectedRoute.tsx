@@ -50,7 +50,7 @@ export default async function ProtectedRoute({children}: Props): Promise<any> {
             <div className="flex items-center justify-center min-h-screen bg-white">
                 <div className="max-w-md w-full p-8 border border-black rounded-none shadow-lg">
                     <h1 className="text-3xl font-bold mb-6 text-black font-libre">Access Denied</h1>
-                    <p className="mb-8 text-gray-700 font-cousine">Unlock exclusive content and enhance your musical journey by subscribing today! Don't miss out on our premium features. Once for a lifetime, no subscription renewal required.</p>
+                    <p className="mb-8 text-gray-700 font-cousine">Unlock exclusive content and enhance your musical journey by subscribing today! Don&apos;t miss out on our premium features. Once for a lifetime, no subscription renewal required.</p>
                     <div className="text-center">
                         <Link
                             href="/subscription" 

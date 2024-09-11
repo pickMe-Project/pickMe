@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +21,10 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
 
-        <script
+        <Script
           src="https://app.sandbox.midtrans.com/snap/snap.js"
           data-client-key={process.env.NEXT_PUBLIC_CLIENT}
-        ></script>
+        ></Script>
       </body>
     </html>
   );
