@@ -1,25 +1,35 @@
 'use client'
 import Link from "next/link";
 import handleLogout from "@/app/actions/logout";
+import { useState, useEffect } from "react";
 
 export default function NavbarSignin() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
       {/* ========== HEADER ========== */}
-      <header className="sticky top-0 left-0 right-0 z-50 w-full bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg">
-        <nav className="container mx-auto flex items-center justify-between px-6">
-          <Link href="/" className="flex items-center p-3">
+      <header className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
+        <nav className="container mx-auto flex items-center justify-between px-4 py-3 lg:px-6">
+          <Link href="/" className="flex items-center">
             {/* Logo */}
             <img
               src="/PickMe_transparent.svg"
               alt="pickme-logo"
-              className="bg-white/60 rounded-xl p-1 w-16 h-16"
+              className={`transition-all duration-300 ${isScrolled ? 'w-12 h-12' : 'w-16 h-16'} bg-white/60 rounded-xl p-1`}
             />
             {/* End Logo */}
           </Link>
-          <div className="hidden md:flex items-center space-x-12 font-cousine">
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-12 font-cousine">
             <Link
               className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
               href="/"
@@ -52,81 +62,56 @@ export default function NavbarSignin() {
             {/* Toggle Button */}
             <button
               type="button"
-              className="hs-collapse-toggle flex justify-center items-center size-6 border border-gray-200 text-gray-500 rounded-full hover:bg-gray-200 focus:outline-none focus:bg-gray-200"
-              id="hs-navbar-header-floating-collapse"
-              aria-expanded="false"
-              aria-controls="hs-navbar-header-floating"
-              aria-label="Toggle navigation"
-              data-hs-collapse="#hs-navbar-header-floating"
+              className="flex items-center p-2 text-gray-500 hover:text-gray-600"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <svg
-                className="hs-collapse-open:hidden shrink-0 size-3.5"
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1={3} x2={21} y1={6} y2={6} />
-                <line x1={3} x2={21} y1={12} y2={12} />
-                <line x1={3} x2={21} y1={18} y2={18} />
-              </svg>
-              <svg
-                className="hs-collapse-open:block hidden shrink-0 size-4"
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <span className="sr-only">Toggle menu</span>
+              {isMenuOpen ? (
+                <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
             </button>
-            {/* End Toggle Button */}
           </div>
-          <div
-            id="hs-navbar-header-floating"
-            className="hidden hs-collapse overflow-hidden transition-all duration-300 basis-full grow md:hidden"
-            aria-labelledby="hs-navbar-header-floating-collapse"
-          >
-            <div className="flex flex-col items-center mt-4 space-y-4">
+        </nav>
+        {/* Mobile menu */}
+        {isMenuOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <Link
-                className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
                 href="/"
-                aria-current="page"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 Home
               </Link>
               <Link
-                className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
                 href="/songs"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 Songs
               </Link>
               <Link
-                className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
                 href="/profile"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 Profile
               </Link>
-              <Link
-                className="text-gray-800 hover:text-yellow-400 transition-colors duration-400 ease-in-out"
-                href="#"
+              <button
+                onClick={() => {
+                  handleLogout()
+                  setIsMenuOpen(false)
+                }}
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 Sign Out
-              </Link>
+              </button>
             </div>
           </div>
-        </nav>
+        )}
       </header>
       {/* ========== END HEADER ========== */}
     </>
