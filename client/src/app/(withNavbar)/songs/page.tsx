@@ -56,9 +56,9 @@ export default function Songs() {
   return (
     <>
       {/* Search Bar */}
-      <div className="flex flex-col items-center justify-start pt-2 bg-white">
+      <div className="flex flex-col items-center justify-start pt-2 bg-white px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-3xl mb-5 text-center">
-          <h1 className="text-5xl font-bold mb-4 font-libre text-gray-800">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 font-libre text-gray-800">
             Journey to Rockstar Starts Here
           </h1>
         </div>
@@ -71,33 +71,33 @@ export default function Songs() {
         next={loadMore}
         hasMore={hasMore}
         loader={
-          <div className="my-10 flex justify-center items-center mx-auto">
+          <div className="my-6 sm:my-8 md:my-10 flex justify-center items-center mx-auto">
             <div className="relative inline-flex">
-              <div className="w-8 h-8 bg-yellow-400 rounded-full"></div>
-              <div className="w-8 h-8 bg-yellow-400 rounded-full absolute top-0 left-0 animate-ping"></div>
-              <div className="w-8 h-8 bg-yellow-400 rounded-full absolute top-0 left-0 animate-pulse"></div>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-400 rounded-full"></div>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-400 rounded-full absolute top-0 left-0 animate-ping"></div>
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-400 rounded-full absolute top-0 left-0 animate-pulse"></div>
             </div>
-            <span className="ml-4 font-cousine text-lg text-gray-600">Loading...</span>
+            <span className="ml-3 sm:ml-4 font-cousine text-base sm:text-lg text-gray-600">Loading...</span>
           </div>
         }
         endMessage={
           songs.length > 0 && (
-            <p className="mb-8 text-center text-md font-light">
+            <p className="mb-6 sm:mb-8 text-center text-sm sm:text-md font-light">
               You have seen all songs
             </p>
           )
         }
       >
         {songs.length > 0 ? (
-          <div className="flex flex-wrap items-center justify-center bg-white gap-5 py-10">
+          <div className="flex flex-wrap items-center justify-center bg-white gap-3 sm:gap-4 md:gap-5 py-6 sm:py-8 md:py-10 px-4 sm:px-6 lg:px-8">
             {songs.map((song) => {
               return <SongCard key={song.slug} song={song} />;
             })}
           </div>
         ) : (
           !isLoading && (
-            <div className="container mx-auto px-4 py-8">
-              <p className="text-center text-red-600 font-cousine">Song not found</p>
+            <div className="container mx-auto px-4 py-6 sm:py-8">
+              <p className="text-center text-red-600 font-cousine text-sm sm:text-base">Song not found</p>
             </div>
           )
         )}

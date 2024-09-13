@@ -104,24 +104,24 @@ export default function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200">
-      <div className="w-full max-w-md p-10 space-y-8 bg-white rounded-xl shadow-2xl">
-        <h1 className="text-4xl font-bold text-center text-black font-libre">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md p-6 sm:p-8 md:p-10 space-y-6 sm:space-y-8 bg-white rounded-xl shadow-2xl">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center text-black font-libre">
           Sign Up
         </h1>
-        <form onSubmit={handleRegister} className="mt-10 space-y-6 font-cousine">
+        <form onSubmit={handleRegister} className="mt-8 sm:mt-10 space-y-4 sm:space-y-6 font-cousine">
           <div className="space-y-4">
             <div className="relative">
               <input
                 id="name"
                 name="name"
                 type="text"
-                className="w-full px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
+                className="w-full px-3 sm:px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
                 placeholder=" "
               />
               <label
                 htmlFor="name"
-                className="absolute left-4 top-2 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="absolute left-3 sm:left-4 top-2 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Full Name
               </label>
@@ -132,12 +132,12 @@ export default function Register() {
                 id="username"
                 name="username"
                 type="text"
-                className="w-full px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
+                className="w-full px-3 sm:px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
                 placeholder=" "
               />
               <label
                 htmlFor="username"
-                className="absolute left-4 top-2 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="absolute left-3 sm:left-4 top-2 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Username
               </label>
@@ -147,12 +147,12 @@ export default function Register() {
               <input
                 id="email"
                 name="email"
-                className="w-full px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
+                className="w-full px-3 sm:px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
                 placeholder=" "
               />
               <label
                 htmlFor="email"
-                className="absolute left-4 top-2 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="absolute left-3 sm:left-4 top-2 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Email
               </label>
@@ -163,29 +163,29 @@ export default function Register() {
                 id="password"
                 name="password"
                 type="password"
-                className="w-full px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
+                className="w-full px-3 sm:px-4 py-2 text-black bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-black transition duration-300 peer"
                 placeholder=" "
               />
               <label
                 htmlFor="password"
-                className="absolute left-4 top-2 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="absolute left-3 sm:left-4 top-2 text-gray-500 transition-all duration-300 transform -translate-y-6 scale-75 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Password
               </label>
               {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
             </div>
           </div>
-          <div className="pt-3">
+          <div className="pt-4 sm:pt-6">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-6 py-3 text-white bg-black rounded-full hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 font-cousine shadow-md"
+              className="w-full px-4 sm:px-6 py-2 sm:py-3 text-white bg-black rounded-full hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 font-cousine shadow-md text-sm sm:text-base"
             >
               {isSubmitting ? 'Creating Account...' : 'Create Account'}
             </button>
           </div>
         </form>
-        <div className="mt-4">
+        <div className="mt-4 sm:mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
