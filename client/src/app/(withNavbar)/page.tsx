@@ -16,27 +16,27 @@ export default async function Home() {
     <>
       <AOSWrapper>
         {/* Header */}
-        <div className="flex justify-between">
-          <div className="w-[80vh] h-screen flex items-center justify-center" data-aos="fade-right">
+        <div className="flex flex-col lg:flex-row justify-between">
+          <div className="w-full lg:w-[80vh] h-[50vh] lg:h-screen flex items-center justify-center" data-aos="fade-right">
             <img
-              className="w-[71vh] h-[100vh] object-cover"
+              className="w-full lg:w-[71vh] h-full lg:h-[100vh] object-cover"
               src="https://images.unsplash.com/photo-1593698054498-56898cbad8af?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="1st image"
             />
           </div>
-          <div className="w-1/2 h-screen mt-[30vh]" data-aos="fade-down">
+          <div className="w-full lg:w-1/2 h-[50vh] lg:h-screen mt-4 lg:mt-[30vh]" data-aos="fade-down">
             <div className="flex flex-col items-center justify-center">
-              <h1 className="text-[3rem] italic font-black font-libre">Road to Rockstar</h1>
+              <h1 className="text-[2rem] lg:text-[3rem] italic font-black font-libre">Road to Rockstar</h1>
               <img
-                className="w-[80vh] h-[75vh] object-cover"
+                className="w-full lg:w-[80vh] h-[40vh] lg:h-[75vh] object-cover mt-4"
                 src="https://images.unsplash.com/photo-1644280930023-aeb3df02f310?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="2nd image"
               />
             </div>
           </div>
-          <div className="w-[60vh] h-screen flex items-start justify-end mt-[7vh]" data-aos="fade-left">
+          <div className="w-full lg:w-[60vh] h-[50vh] lg:h-screen flex items-start justify-center lg:justify-end mt-4 lg:mt-[7vh]" data-aos="fade-left">
             <img
-              className="w-[50vh] h-[81vh] object-cover"
+              className="w-full lg:w-[50vh] h-full lg:h-[81vh] object-cover"
               src="https://images.unsplash.com/photo-1593697972422-9d9cb386afd8?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="3rd image"
             />
@@ -44,9 +44,9 @@ export default async function Home() {
         </div>
 
         {/* Description */}
-        <div className="flex justify-start items-center px-[15vh]" data-aos="fade-up">
-          <div className="w-[65%] h-[40vh]">
-            <p className="text-xl font-normal font-cousine">
+        <div className="flex justify-start items-center px-4 lg:px-[15vh] mt-8 lg:mt-0" data-aos="fade-up">
+          <div className="w-full lg:w-[65%] h-auto lg:h-[40vh]">
+            <p className="text-base lg:text-xl font-normal font-cousine">
               pickMe! is your ultimate online destination for mastering the guitar with ease. Whether you&apos;re a beginner
               looking to strum your first chord or an experienced player aiming to perfect your skills, pickMe! offers an
               extensive library of guitar tabs and chords tailored for every level. With an intuitive interface, users can
@@ -58,15 +58,15 @@ export default async function Home() {
         </div>
 
         {/* Marquee */}
-        <div className="relative" data-aos="fade-left">
+        <div className="relative mt-8 lg:mt-0" data-aos="fade-left">
           <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent z-10"></div>
           <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent z-10"></div>
           <MarqueeLanding />
         </div>
 
         {/* Featured Songs */}
-        <div className="py-10 px-[15vh]" data-aos="fade-up">
-          <h2 className="text-3xl font-bold font-libre mb-8">Featured Songs</h2>
+        <div className="py-10 px-4 lg:px-[15vh]" data-aos="fade-up">
+          <h2 className="text-2xl lg:text-3xl font-bold font-libre mb-8">Featured Songs</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredSongs.map((song, index) => (
               <Link href={`/songs/${song.slug}`} key={song.slug}>
@@ -87,7 +87,7 @@ export default async function Home() {
           </div>
 
           {/* Explore More Hero Section */}
-          <div className="relative h-[80vh] mt-16 mb-10 overflow-hidden" data-aos="fade-up">
+          <div className="relative h-[60vh] lg:h-[80vh] mt-16 mb-10 overflow-hidden" data-aos="fade-up">
             <div className="absolute inset-0">
               <img
                 src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
@@ -97,8 +97,8 @@ export default async function Home() {
             </div>
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-              <h2 className="text-5xl font-bold font-libre mb-6 tracking-wider">Discover Your Sound</h2>
-              <p className="text-xl font-cousine mb-10 max-w-2xl">
+              <h2 className="text-3xl lg:text-5xl font-bold font-libre mb-6 tracking-wider">Discover Your Sound</h2>
+              <p className="text-lg lg:text-xl font-cousine mb-10 max-w-2xl">
                 Unlock a lifetime of musical mastery! Subscribe once for unlimited access to our
                 extensive tabs and exclusive tutorial videos. From beginner to virtuoso, your
                 journey starts here.
